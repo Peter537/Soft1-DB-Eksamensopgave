@@ -25,7 +25,10 @@ Ref: users.id < user_reviews.reviewer
 ## Redis
 
 .. ofte brugte søgninger?
+
 .. mest sete postings (over X tid)?
+
+.. idk ville nok ik lave indkøbskurv pga idk er det normalt på sådan en slags side? (Måske mere hvis det var like Amazon or something)
 
 ## MongoDB
 
