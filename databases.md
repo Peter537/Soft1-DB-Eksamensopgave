@@ -25,6 +25,7 @@ Ref: users.id < user_reviews.reviewer
 ## Redis
 
 .. ofte brugte søgninger?
+.. mest sete postings (over X tid)?
 
 ## MongoDB
 
