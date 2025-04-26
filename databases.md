@@ -22,13 +22,15 @@ Ref: users.id < user_reviews.reviewed
 Ref: users.id < user_reviews.reviewer
 ```
 
+.. payment system ?
+
 ## Redis
 
 .. ofte brugte søgninger?
 
 .. mest sete postings (over X tid)?
 
-.. idk ville nok ik lave indkøbskurv pga idk er det normalt på sådan en slags side? (Måske mere hvis det var like Amazon or something)
+.. indkøbskurv (lidt ligesom Amazon/G2A)
 
 ## MongoDB
 
@@ -50,3 +52,8 @@ Vi laver en `postings` document i MongoDB, som indeholder alle salgsopslag.
     ]
 }
 ```
+
+evt:
+- item_count (hvor mange der er til salg)
+- price skal være en liste hvis nu fx der er forskellige priser per land
+- location/country (hvor det bliver solgt/sendt fra)
