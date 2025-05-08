@@ -26,6 +26,9 @@ def render():
     st.write("Total price: $100.00")
 
     if st.button("Checkout"):
-        st.session_state.selected_page = "Checkout Login"
+        if st.session_state.logged_in:
+            st.session_state.selected_page = "Checkout"
+        else:
+            st.session_state.selected_page = "Checkout Login"
         st.rerun()
         

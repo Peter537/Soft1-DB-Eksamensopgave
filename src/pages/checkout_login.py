@@ -10,11 +10,12 @@ def render():
 
     if st.button("Login"):
         st.session_state.selected_page = "Checkout"
+        st.session_state.logged_in = True
         st.rerun()
 
     st.write("---")
 
-    if st.button("Or continue as guest?"):
-        st.session_state.selected_page = "Checkout"
-        st.rerun()
-        
+    if st.session_state.logged_in == False:
+        if st.button("Or continue as guest?"):
+            st.session_state.selected_page = "Checkout"
+            st.rerun()

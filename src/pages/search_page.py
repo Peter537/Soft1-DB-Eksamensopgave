@@ -10,19 +10,25 @@ def render(search_query):
         st.write("placeholder for price slider")
     with col2:
         st.title("Search results")
+
         data = [
-                {"Title": "Item 1", "Price": "$10"},
-                {"Title": "Item 2", "Price": "$20"},
-                {"Title": "Item 3", "Price": "$30"},
+                {"#": 1, "Title": "Product 1", "Price": "$10.00"},
+                {"#": 2, "Title": "Product 2", "Price": "$20.00"},
+                {"#": 3, "Title": "Product 3", "Price": "$30.00"},
         ]
 
         for item in data:
-            col1, col2, col3 = st.columns([3, 1, 1])
+            col1, col2, col3, col4 = st.columns([1, 3, 2, 1])
             with col1:
-                st.write(item["Title"])
+                st.write(item["#"])
             with col2:
-                st.write(item["Price"])
+                st.write(item["Title"])
             with col3:
+                st.write(item["Price"])
+            with col4:
                 if st.button("View", key=item["Title"]):
+                    st.session_state.product_id = item["#"]
                     st.session_state.selected_page = "Product Page"
                     st.rerun()
+                    
+            st.markdown("---")
