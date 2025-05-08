@@ -22,7 +22,8 @@ def render():
             if st.button("Remove", key=item["Product"]):
                 st.success(f"Removed {item['Product']} from cart")
 
-    st.write("---")
+        st.write("---")
+
     st.write("Total price: $100.00")
 
     if st.button("Checkout"):

@@ -7,7 +7,10 @@ def render(search_query):
 
     with col1:
         st.title("Price")
-        st.write("placeholder for price slider")
+        min, max = st.slider("Price range", 0, 1000, (0, 1000), 1)
+
+        st.write(f"Debug: Min: {min}, Max: {max}") # Debugging line
+
     with col2:
         st.title("Search results")
 
@@ -30,5 +33,5 @@ def render(search_query):
                     st.session_state.product_id = item["#"]
                     st.session_state.selected_page = "Product Page"
                     st.rerun()
-                    
+
             st.markdown("---")
