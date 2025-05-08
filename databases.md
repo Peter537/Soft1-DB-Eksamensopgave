@@ -44,7 +44,7 @@ Vi laver en `postings` document i MongoDB, som indeholder alle salgsopslag.
     "price": Number, // Required
     "description": String, // Optional
     "category": String, // Required
-    "specifications": [
+    "specifications": [ // Optional
         {
             "name": String, // Required
             "value": String // Required
