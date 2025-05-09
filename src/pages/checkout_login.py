@@ -1,4 +1,5 @@
 import streamlit as st
+from pages.screens import Screen
 
 def render():
     st.title("Login or continue as guest")
@@ -9,7 +10,7 @@ def render():
     password = st.text_input("Password", type="password")
 
     if st.button("Login"):
-        st.session_state.selected_page = "Checkout"
+        st.session_state.selected_page = Screen.CHECKOUT.value
         st.session_state.logged_in = True
         st.rerun()
 
@@ -17,5 +18,5 @@ def render():
 
     if st.session_state.logged_in == False:
         if st.button("Or continue as guest?"):
-            st.session_state.selected_page = "Checkout"
+            st.session_state.selected_page = Screen.CHECKOUT.value
             st.rerun()

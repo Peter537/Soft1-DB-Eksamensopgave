@@ -1,4 +1,5 @@
 import streamlit as st
+from pages.screens import Screen
 
 def render():
     st.title("Checkout")
@@ -28,5 +29,5 @@ def render():
                 st.success(f"Removed {item['Product']} from cart")
 
     if st.button("Pay"):
-        st.session_state.selected_page = "Receipt"
+        st.session_state.selected_page = Screen.RECEIPT.value
         st.rerun()

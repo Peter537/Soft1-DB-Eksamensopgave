@@ -1,4 +1,5 @@
 import streamlit as st
+from pages.screens import Screen
 
 def render():
     st.title("Shopping Cart")
@@ -28,8 +29,8 @@ def render():
 
     if st.button("Checkout"):
         if st.session_state.logged_in:
-            st.session_state.selected_page = "Checkout"
+            st.session_state.selected_page = Screen.CHECKOUT.value
         else:
-            st.session_state.selected_page = "Checkout Login"
+            st.session_state.selected_page = Screen.CHECKOUT_LOGIN.value
         st.rerun()
         

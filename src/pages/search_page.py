@@ -1,4 +1,5 @@
 import streamlit as st
+from pages.screens import Screen
 
 def render(search_query):
     st.write(f"Debug: you searched for: '{search_query}'")
@@ -31,7 +32,7 @@ def render(search_query):
             with col4:
                 if st.button("View", key=item["Title"]):
                     st.session_state.product_id = item["#"]
-                    st.session_state.selected_page = "Product Page"
+                    st.session_state.selected_page = Screen.PRODUCT.value
                     st.rerun()
 
             st.markdown("---")

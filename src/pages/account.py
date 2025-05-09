@@ -26,4 +26,3 @@ def render():
             st.write(item["Status"])
 
         st.markdown("---")
-

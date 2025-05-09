@@ -1,4 +1,5 @@
 import streamlit as st
+from pages.screens import Screen
 
 def render(product_id):
     st.title("Product information")
@@ -20,7 +21,7 @@ def render(product_id):
             st.success(f"Added {amount} of items product_id: {product_id} to cart")
 
         if st.button("Buy now"):
-            st.session_state.selected_page = "Cart"
+            st.session_state.selected_page = Screen.CART.value
             st.rerun()
 
     st.write("---")
