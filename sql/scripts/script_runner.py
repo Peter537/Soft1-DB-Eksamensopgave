@@ -8,5 +8,3 @@ if __name__ == "__main__":
 
     print("-------------------------------------")
     print("All scripts executed successfully.")
-
-    # https://chatgpt.com/c/6821ea99-a6dc-8012-a172-b0ae76e0af47
