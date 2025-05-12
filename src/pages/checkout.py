@@ -30,4 +30,5 @@ def render():
 
     if st.button("Pay"):
         st.session_state.selected_page = Screen.RECEIPT.value
+        st.session_state.items = cart_items
         st.rerun()

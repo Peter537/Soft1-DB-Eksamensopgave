@@ -86,4 +86,4 @@ match page:
     case Screen.CHECKOUT.value:
         checkout.render()
     case Screen.RECEIPT.value:
-        receipt.render()
+        receipt.render(st.session_state.items)
