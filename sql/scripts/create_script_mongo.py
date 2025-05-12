@@ -2,6 +2,8 @@ from pymongo import MongoClient
 from bson import ObjectId
 from datetime import datetime
 
+import pandas as pd
+
 def get_mongo_collection():
     client = MongoClient("mongodb://localhost:27017/")
     db = client["marketplace"]
@@ -27,52 +29,81 @@ def insert_posting(posting_data):
     result = collection.insert_one(posting_data)
     print(f"Inserted document with _id: {result.inserted_id}")
 
-# 🚗 Car example
 def insert_cars():
-    # Simulated user_id from SQL
-    user_id = 101
-
-    car_specs = [
-        {"key": "brand", "value": "Toyota"},
-        {"key": "model", "value": "Corolla"},
-        {"key": "year", "value": "2019"},
-        {"key": "mileage", "value": "50,000 km"}
+    PATHS = [
+        '../../datasets/cars/used_cars.csv',
+        '../../datasets/cars/used_cars_2.csv',
+        '../../datasets/cars/used_cars_3.csv'
     ]
 
-    car_posting = build_base_posting(
-        user_id=user_id,
-        title="2019 Toyota Corolla",
-        price=15000,
-        status="active",
-        category="car",
-        country="Denmark",
-        city="Copenhagen",
-        specifications=car_specs
-    )
+    user_ids = [101, 102, 103, 104, 105]
 
-    insert_posting(car_posting)
+    for path in PATHS:
+        df = pd.read_csv(path, sep=',', skiprows=1)
+        df = df.drop_duplicates(subset=['title'])
+
+        for index, row in df.iterrows():
+            user_id = 101
+            car_posting = build_base_posting(
+                user_id=user_id,
+                title=row['title'],
+                price=row['price'],
+                status="active",
+                category="car",
+                country=row['country'],
+                description=row['description'],
+                city=row['city'],
+                item_count=row['item_count'],
+                specifications=[
+                    {"key": "Mileage", "value": row['mileage']},
+                    {"key": "Year", "value": row['year']},
+                    {"key": "Fuel Type", "value": row['fuel_type']}
+                ]
+            )
+            insert_posting(car_posting)
+            #user_id = user_ids[(user_ids.index(user_id) + 1) % len(user_ids)]
 
 def insert_pcs():
-    user_id = 102
-
-    pc_specs = [
-        {"key": "CPU", "value": "Intel i7"},
-        {"key": "RAM", "value": "16GB"},
-        {"key": "Storage", "value": "512GB SSD"}
+    paths = [
+        '../../datasets/pcs/used_pcs.csv',
+        '../../datasets/pcs/used_pcs_2.csv',
+        '../../datasets/pcs/used_pcs_3.csv'
     ]
 
-    pc_posting = build_base_posting(
-        user_id=user_id,
-        title="High-end gaming PC",
-        price=1200,
-        status="active",
-        category="computer",
-        country="Germany",
-        specifications=pc_specs
-    )
+    user_ids = [101, 102, 103, 104, 105]
 
-    insert_posting(pc_posting)
+    for path in paths:
+        df = pd.read_csv(path, sep=',', skiprows=1)
+        df = df.drop_duplicates(subset=['title'])
 
-def insert_mongo_documents():
+        for index, row in df.iterrows():
+            user_id = 101
+            pc_posting = build_base_posting(
+                user_id=user_id,
+                title=row['title'],
+                price=row['price'],
+                status="active",
+                category="pc",
+                country=row['country'],
+                description=row['description'],
+                city=row['city'],
+                item_count=row['item_count'],
+                specifications=[
+                    {"key": "RAM", "value": row['ram']},
+                    {"key": "Storage", "value": row['storage']},
+                    {"key": "Processor", "value": row['processor']}
+                ]
+            )
+            insert_posting(pc_posting)
+            #user_id = user_ids[(user_ids.index(user_id) + 1) % len(user_ids)]
+
+def run_all_scripts():
+    collection = get_mongo_collection()
+
+    collection.delete_many({})
+    print("Cleared all existing postings.")
+
     insert_cars()
     insert_pcs()
+    print("All MongoDB postings inserted successfully.")
+

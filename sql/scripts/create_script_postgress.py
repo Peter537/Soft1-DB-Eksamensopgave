@@ -3,7 +3,7 @@ import pandas as pd
 import bcrypt
 
 DEFUALT_PASSWORD =  "password123"
-bcrypt_password = bcrypt.hashpw(DEFUALT_PASSWORD.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+BCRYPT_PASSWORD = bcrypt.hashpw(DEFUALT_PASSWORD.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
 def check_for_connection():
     try:
@@ -67,7 +67,7 @@ def normal_users(cur):
     for _, row in df.iterrows():
         name = row['name']
         email = name.lower().replace(" ", "") + "@example.com"
-        password = bcrypt_password
+        password = BCRYPT_PASSWORD
         cur.execute(insert_query, (email, name, password))
 
     print("All normal users created successfully.")
@@ -87,7 +87,7 @@ def companie_users(cur):
     for _, row in df.iterrows():
         name = row['Company Name']
         email = name.lower().replace(" ", "") + "@company.com"
-        password = bcrypt_password
+        password = BCRYPT_PASSWORD
         cur.execute(insert_query, (email, name, password, True))
 
     print("All company users created successfully.")
