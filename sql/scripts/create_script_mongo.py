@@ -208,6 +208,59 @@ def insert_pcs():
     print("Done inserting pcs from pc.csv \n")
 
 
+def insert_pcs2():
+    print("Inserting pcs from pc2.csv")
+    path = '../../datasets/pc2.csv'
+    df = pd.read_csv(path)
+
+    ids = {
+        "Apple": 28573,
+        "HP": 27990,
+        "Lenovo": 28227,
+        "Dell": 26856,
+        "Asus": 28949,
+        "Samsung": 26773,
+        "MSI": 28415
+    }
+
+    postings = []
+
+    for _, row in df.iterrows():
+        user_id = next((ids[brand] for brand in ids if brand.lower() in row['Brand'].lower()), 101)
+
+        title = f"{row['Brand']} {row['Processor']} {row['RAM']} GB"
+
+        posting = build_base_posting(
+            user_id=user_id,
+            title=title,
+            price=row['Price'],
+            status="active",
+            category="pc",
+            country="Denmark",
+            city="Copenhagen",
+            description=['Product_Description'],
+            item_count=random.randint(1, 10),
+            specifications=[
+                {"key": "Brand", "value": row['Brand']},
+                {"key": "Screen_Size", "value": row['Screen_Size']},
+                {"key": "RAM", "value": row['RAM']},
+                {"key": "Processor", "value": row['Processor']},
+                {"key": "GPU", "value": row['GPU']},
+                {"key": "GPU_Type", "value": row['GPU_Type']},
+                {"key": "Resolution", "value": row['Resolution']},
+                {"key": "Condition", "value": row['Condition']}
+            ]
+        )
+        postings.append(posting)
+
+    insert_many_postings(postings)
+    print("Done inserting pcs from pc2.csv \n")
+
+
+def insert_all_pcs():
+    insert_pcs()
+    insert_pcs2()
+
 
 def insert_phones():
     print("Inserting phones from phones.csv")
@@ -348,13 +401,44 @@ def insert_clothes():
     insert_many_postings(postings)
     print("Done inserting clothes from clothes.csv \n")
 
+
+def insert_kitchenware():
+    print("Inserting clothes from clothes.csv")
+    path = '../../datasets/kitchenware.csv'
+    df = pd.read_csv(path)
+
+    id = 26768 # Amazon only
+    postings = []
+
+    for _, row in df.iterrows():
+        posting = build_base_posting(
+            user_id=id,
+            title=row['title'],
+            price=row['price/value'],
+            status="active",
+            category="kitchenware",
+            country="USA",
+            city="New York",
+            description=row['description'],
+            item_count=random.randint(1, 10),
+            specifications=[
+                {"key": "Brand", "value": row['brand']}
+            ]
+        )
+        postings.append(posting)
+    
+    insert_many_postings(postings)
+    print("Done inserting kitchenware from kitchenware.csv \n")
+
+
 def run_all_scripts():
     collection = get_mongo_collection()
     collection.delete_many({})
     print("Cleared all existing postings.")
-
+    
+    insert_kitchenware()
     insert_cars()
-    insert_pcs()
+    insert_all_pcs()
     insert_phones()
     insert_shoes()
     insert_clothes()
