@@ -26,32 +26,32 @@
 
 #### Electronics:
 ##### Laptops:
-5.
+6.
     __Dataset name__: pc.csv (size: 893): <br>
     __Link__: [Laptop Price Dataset](https://www.kaggle.com/code/sonialikhan/laptop-price-dataset/input) from kaggle
 
-6. 
+7. 
     __Dataset name__: pc2.csv (size: 2952): <br>
     __Link__: [Laptop Price Dataset April 2024](https://www.kaggle.com/datasets/keremabdullahoglu/laptop-price-dataset-april-2024) from kaggle
 
 ##### Phones:
 
-7.
+8.
     __Dataset name__: phones.csv (size: 407): <br>
     __Link__: [Mobile Phone Price](https://www.kaggle.com/datasets/rkiattisak/mobile-phone-price) from kaggle
 
 #### Mixed clothing:
 ##### Shoes:
-8.
+9.
     __Dataset name__: shoes.csv (size: 1006): <br>
     __Link__: [Shoe Prices dataset](https://www.kaggle.com/datasets/rkiattisak/shoe-prices-dataset) from kaggle
 
 ##### Clothes:
-9.
+10.
     __Dataset name__: clothes.csv (size: 1000): <br>
     __Link__: [Clothes Price Prediction](https://www.kaggle.com/datasets/mrsimple07/clothes-price-prediction) from kaggle
 
 #### Kitchen appliances:
-10.
+11.
     __Dataset name__: kitchen_appliances.csv (size: 262): <br>
     __Link__: [Amazon Kitchen Best Sellers Dataset 2024](https://www.kaggle.com/datasets/kanchana1990/amazon-kitchen-best-sellers-dataset-2024) from kaggle
