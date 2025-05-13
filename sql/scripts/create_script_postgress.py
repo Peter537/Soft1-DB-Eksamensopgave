@@ -1,4 +1,5 @@
 import psycopg2
+from psycopg2.extras import execute_values
 import pandas as pd
 import bcrypt
 
@@ -55,42 +56,52 @@ def normal_users(cur):
     path = '../../datasets/names.txt'
 
     df = pd.read_csv(path, sep='\t', skiprows=8, header=None, names=['name', 'gender'])
-    df = df.drop("gender", axis=1)
-    df = df.drop_duplicates(subset=['name'])
+    df = df.drop("gender", axis=1).drop_duplicates(subset=['name'])
+
+    # Prepare data for bulk insert
+    user_data = [
+        (
+            name.lower().replace(" ", "") + "@example.com",
+            name,
+            BCRYPT_PASSWORD
+        )
+        for name in df['name']
+    ]
 
     insert_query = """
     INSERT INTO users (email, name, password)
-    VALUES (%s, %s, %s)
+    VALUES %s
     ON CONFLICT (email) DO NOTHING;
     """
 
-    for _, row in df.iterrows():
-        name = row['name']
-        email = name.lower().replace(" ", "") + "@example.com"
-        password = BCRYPT_PASSWORD
-        cur.execute(insert_query, (email, name, password))
-
+    execute_values(cur, insert_query, user_data)
     print("All normal users created successfully.")
+
 
 def companie_users(cur):
     path = '../../datasets/company_names.csv'
 
-    df = pd.read_csv(path)
-    df = df[['Company Name']].drop_duplicates()
+    df = pd.read_csv(path)[['Company Name']].drop_duplicates()
+
+    company_data = [
+        (
+            name.lower().replace(" ", "") + "@company.com",
+            name,
+            BCRYPT_PASSWORD,
+            True
+        )
+        for name in df['Company Name']
+    ]
 
     insert_query = """
     INSERT INTO users (email, name, password, is_company)
-    VALUES (%s, %s, %s, %s)
+    VALUES %s
     ON CONFLICT (email) DO NOTHING;
     """
 
-    for _, row in df.iterrows():
-        name = row['Company Name']
-        email = name.lower().replace(" ", "") + "@company.com"
-        password = BCRYPT_PASSWORD
-        cur.execute(insert_query, (email, name, password, True))
-
+    execute_values(cur, insert_query, company_data)
     print("All company users created successfully.")
+
 
 def run_all_scripts():
     conn = check_for_connection()
@@ -108,7 +119,8 @@ def run_all_scripts():
         conn.commit()
         cur.close()
         conn.close()
-        print("All data inserted and connection closed.")
+        print("All postgress data inserted and connection closed.")
+        print("---------------------------------------- \n")
     except Exception as e:
         print(f"An error occurred: {e}")
         conn.rollback()
