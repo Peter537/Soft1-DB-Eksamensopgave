@@ -48,7 +48,7 @@ def insert_cars():
 
 def used_cars(ids):
     print("Inserting used cars from used_cars.csv")
-    path = '../../datasets/used_cars.csv'
+    path = '../../datasets/cars/used_cars.csv'
     df = pd.read_csv(path).dropna()
 
     postings = []
@@ -85,7 +85,7 @@ def used_cars(ids):
 
 def used_cars1(ids):
     print("Inserting used cars from used_cars1.csv")
-    path = '../../datasets/used_cars1.csv'
+    path = '../../datasets/cars/used_cars1.csv'
     df = pd.read_csv(path).dropna()
 
     postings = []
@@ -123,7 +123,7 @@ def used_cars1(ids):
 
 def used_cars2(ids):
     print("Inserting used cars from used_cars2.csv")
-    path = '../../datasets/used_cars2.csv'
+    path = '../../datasets/cars/used_cars2.csv'
     df = pd.read_csv(path)
 
     postings = []
@@ -160,7 +160,7 @@ def used_cars2(ids):
 
 def insert_pcs():
     print("Inserting pcs from pc.csv")
-    path = '../../datasets/pc.csv'
+    path = '../../datasets/electronic/pc.csv'
     df = pd.read_csv(path).dropna()
 
     ids = {
@@ -210,7 +210,7 @@ def insert_pcs():
 
 def insert_pcs2():
     print("Inserting pcs from pc2.csv")
-    path = '../../datasets/pc2.csv'
+    path = '../../datasets/electronic/pc2.csv'
     df = pd.read_csv(path)
 
     ids = {
@@ -264,7 +264,7 @@ def insert_all_pcs():
 
 def insert_phones():
     print("Inserting phones from phones.csv")
-    path = '../../datasets/phones.csv'
+    path = '../../datasets/electronic/phones.csv'
     df = pd.read_csv(path)
 
     ids = {
@@ -312,7 +312,7 @@ def insert_phones():
 
 def insert_shoes():
     print("Inserting shoes from shoes.csv")
-    path = '../../datasets/shoes.csv'
+    path = '../../datasets/clothing/shoes.csv'
     df = pd.read_csv(path)
 
     ids = {
@@ -358,7 +358,7 @@ def insert_shoes():
 
 def insert_clothes():
     print("Inserting clothes from clothes.csv")
-    path = '../../datasets/clothes.csv'
+    path = '../../datasets/clothing/clothes.csv'
     df = pd.read_csv(path)
 
     ids = {
@@ -404,7 +404,7 @@ def insert_clothes():
 
 def insert_kitchenware():
     print("Inserting clothes from clothes.csv")
-    path = '../../datasets/kitchenware.csv'
+    path = '../../datasets/kitchen_utensils/kitchenware.csv'
     df = pd.read_csv(path)
 
     id = 26768 # Amazon only

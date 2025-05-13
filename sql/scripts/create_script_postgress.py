@@ -53,7 +53,7 @@ def create_postgres_tables(cur):
     print("Tables created successfully in PostgreSQL.")
 
 def normal_users(cur):
-    path = '../../datasets/names.txt'
+    path = '../../datasets/users/names.txt'
 
     df = pd.read_csv(path, sep='\t', skiprows=8, header=None, names=['name', 'gender'])
     df = df.drop("gender", axis=1).drop_duplicates(subset=['name'])
@@ -79,7 +79,7 @@ def normal_users(cur):
 
 
 def companie_users(cur):
-    path = '../../datasets/company_names.csv'
+    path = '../../datasets/users/company_names.csv'
 
     df = pd.read_csv(path)[['Company Name']].drop_duplicates()
 
