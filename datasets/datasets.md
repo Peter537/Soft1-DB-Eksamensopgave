@@ -55,3 +55,13 @@
 11.
     __Dataset name__: kitchen_appliances.csv (size: 262): <br>
     __Link__: [Amazon Kitchen Best Sellers Dataset 2024](https://www.kaggle.com/datasets/kanchana1990/amazon-kitchen-best-sellers-dataset-2024) from kaggle
+
+#### Furniture:
+12.
+    __Dataset name__: furniture.csv (size: 2000): <br>
+    __Link__: [Furniture Price Prediction](https://www.kaggle.com/datasets/shawkyelgendy/furniture-price-prediction) from kaggle
+
+13. 
+    __Dataset name__: furniture2.csv (size: 3694): <br>
+    __Link__: [IKEA Products](https://www.kaggle.com/datasets/thedevastator/ikea-product) from kaggle
+    
