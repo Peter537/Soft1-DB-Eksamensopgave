@@ -30,11 +30,11 @@ def render(product_id):
         amount = st.number_input("Amount", min_value=1, max_value=posting['item_count'], value=1, step=1)
 
         if st.button("Add to cart"):
-            add_to_cart(st.session_state.session_id, posting['_id'], amount, posting['price'])
+            add_to_cart(posting['title'], st.session_state.session_id, posting['_id'], amount, posting['price'])
             st.success(f"Added {amount} of {posting['title']} to cart")
 
         if st.button("Buy now"):
-            add_to_cart(st.session_state.session_id, posting['_id'], amount, posting['price'])
+            add_to_cart(posting['title'], st.session_state.session_id, posting['_id'], amount, posting['price'])
             st.session_state.selected_page = Screen.CART.value
             st.rerun()
 

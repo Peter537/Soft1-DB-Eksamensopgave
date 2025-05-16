@@ -7,7 +7,7 @@ def get_cart_key(session_id):
     return f"cart:{session_id}"
 
 
-def add_to_cart(session_id, posting_id, quantity, price):
+def add_to_cart(title, session_id, posting_id, quantity, price):
     key = f"cart:{session_id}"
     cart_json = redis.get(key)
 
@@ -27,6 +27,7 @@ def add_to_cart(session_id, posting_id, quantity, price):
             break
     else:
         cart["items"].append({
+            "title": title,
             "postingId": posting_id,
             "quantity": quantity,
             "price": price

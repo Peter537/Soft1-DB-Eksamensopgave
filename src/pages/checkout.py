@@ -4,7 +4,7 @@ from pages.screens import Screen
 from bson import ObjectId
 from db.mongo.postings import get_posting_by_id
 from db.mongo.payment_log import insert_payment_log
-from db.redis.cart import get_cart, clear_cart
+from db.redis.cart import get_cart, clear_cart, remove_from_cart
 
 def render():
     st.title("Checkout")
@@ -36,12 +36,14 @@ def render():
             st.write(f"{price:.2f}")
         with col4:
             if st.button("Remove", key=f"remove_{posting_id}"):
-                st.success(f"Removed {posting_id} from cart")
+                remove_from_cart(st.session_state.session_id, item["postingId"])
+                st.success(f"Removed {posting['title']} from cart")
+                st.rerun()
 
         # Build enriched item for logging
         enriched_item = {
             "posting_id": posting["_id"],
-            "seller_id": posting["user_id"],  # Assuming you store it as user_id
+            "seller_id": posting["user_id"], 
             "title": posting["title"],
             "price": price,
             "description": posting.get("description"),
@@ -55,10 +57,10 @@ def render():
 
     if st.button("Pay"):
         # Replace 1 with actual session user ID
-        user_id = st.session_state.get("user_id", 1)
+        user_id = st.session_state.get("user_id", 1) # TODO: what should we do when user is not logged in? should a user only have to give email and phone number instead?
         insert_payment_log(user_id, enriched_items, total_price)
 
-        clear_cart(st.session_state.session_id)  # Clear the cart after payment
+        clear_cart(st.session_state.session_id)  
         st.session_state.bought_items = enriched_items
         st.session_state.selected_page = Screen.RECEIPT.value
         st.rerun()

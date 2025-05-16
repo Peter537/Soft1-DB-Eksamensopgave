@@ -27,7 +27,7 @@ def render():
         col1, col2, col3, col4 = st.columns([3, 1, 1, 1])
         
         with col1:
-            st.write(item["postingId"])
+            st.write(item["title"])
         with col2:
             st.write(item['quantity'])
         with col3:
