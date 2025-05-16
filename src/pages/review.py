@@ -1,29 +1,33 @@
 import streamlit as st
 from db.postgres.review import create_new_review
 
+from db.mongo.payment_log import get_payment_log_by_id
+
 def render():
     st.title("Review page")
 
     st.write(f"debug {st.session_state.order_id}")
+    st.write("---")
 
-    user_id = -1  # the seller
-    reviewed_user_id = st.session_state.user_id
-    reviewed_posting = "posting_id"  # fix later
+    payment_log = get_payment_log_by_id(st.session_state.order_id)
 
-    description = st.text_area("Write your review here", key="review_text")
-    rating = st.number_input("Rating", min_value=1, max_value=5, step=1, key="rating")
+    for item in payment_log["items"]:
+        st.write(f"Title: {item['title']}")
+        st.write(f"Price: {item['price']}")
+        st.write(f"Quantity: {item['quantity']}")
+    
+        rating = st.selectbox(f"Rate {item['title']}", [1, 2, 3, 4, 5], key=f"rating_{item['posting_id']}")
+        review_text = st.text_area(f"Write a review for {item['title']}", key=f"review_{item['posting_id']}")
 
-    if 1 <= rating <= 5:
-        if st.button("Submit Review"):
-            # Replace with actual logic
-            # create_new_review(
-            #     order_id=st.session_state.order_id,
-            #     user_id=user_id,
-            #     reviewed_user_id=reviewed_user_id,
-            #     posting_id=reviewed_posting,
-            #     description=description,
-            #     rating=rating
-            # )
-            st.success("Review submitted!")
-    else:
-        st.warning("Please select a rating between 1 and 5")
+        if st.button(f"Submit review for {item['title']}", key=f"submit_{item['posting_id']}"):
+            create_new_review(
+                user_id=item['seller_id'],
+                reviewed_user_id=payment_log['user_id'],
+                reviewed_posting=item['posting_id'],
+                rating=rating,
+                description=review_text,
+            )
+
+            st.success(f"Review for {item['title']} submitted successfully!")
+
+        st.write("---")

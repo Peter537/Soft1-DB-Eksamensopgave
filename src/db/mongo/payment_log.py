@@ -32,3 +32,9 @@ def get_payment_log_by_user_id(user_id: int):
     collection = get_mongo_collection(collection_name="payment_log")
     logs = collection.find({"user_id": user_id}).sort("created_at", -1)
     return list(logs)
+
+def get_payment_log_by_id(log_id: str):
+    print(f"get_payment_log_by_id: {log_id}")
+    collection = get_mongo_collection(collection_name="payment_log")
+    log = collection.find_one({"_id": ObjectId(log_id)})
+    return log

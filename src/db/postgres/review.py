@@ -1,26 +1,26 @@
 from db.postgres.connection_postgres import get_db
 
-def create_new_review(user_id, posting_id, rating, review_text):
-    print("Creating review in PostgreSQL")
+def create_new_review(user_id, reviewed_user_id, reviewed_posting, rating, description):
+
+    print(f"create_new_review: {user_id}, {reviewed_user_id}, {reviewed_posting}, {rating}, {description}")
 
     try:
-        conn = get_db()
-        cursor = conn.cursor()
+        db = get_db()
+        cursor = db.cursor()
 
-        insert_query = """
-        INSERT INTO reviews (user_id, posting_id, rating, review_text)
-        VALUES (%s, %s, %s, %s)
-        RETURNING id;
-        """
-        cursor.execute(insert_query, (user_id, posting_id, rating, review_text))
-        review_id = cursor.fetchone()[0]
+        cursor.execute(
+            """
+            INSERT INTO user_reviews (user_id, reviewed_user_id, reviewed_posting, rating, description)
+            VALUES (%s, %s, %s, %s, %s)
+            """,
+            (user_id, reviewed_user_id, str(reviewed_posting), rating, description)
+        )
 
-        conn.commit()
+        db.commit()
         cursor.close()
-        conn.close()
-
-        return review_id
+        db.close()
+        return True
     except Exception as e:
-        print(f"Error creating review: {e}")
-        return None
+        print(f"Error creating new review: {e}")
+        return False
     
