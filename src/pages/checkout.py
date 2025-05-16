@@ -1,34 +1,64 @@
 import streamlit as st
 from pages.screens import Screen
 
+from bson import ObjectId
+from db.mongo.postings import get_posting_by_id
+from db.mongo.payment_log import insert_payment_log
+from db.redis.cart import get_cart, clear_cart
+
 def render():
     st.title("Checkout")
 
+    cart = get_cart(st.session_state.session_id)
     st.write("Choose a payment method:")
-    payment_methods = ["Credit Card", "PayPal", "Bank Transfer"]
-    selected_payment = st.selectbox("Select payment method", payment_methods)
+    selected_payment = st.selectbox("Select payment method", ["Credit Card", "PayPal", "Bank Transfer"])
 
-    st.write("Show items / the shopping cart")
-
-    cart_items = [
-        {"Product": "Item 1", "Amount": 2, "Price": "$20.00"},
-        {"Product": "Item 2", "Amount": 1, "Price": "$30.00"},
-        {"Product": "Item 3", "Amount": 3, "Price": "$50.00"},
-    ]
+    total_price = 0
+    enriched_items = []
 
     col1, col2, col3, col4 = st.columns([3, 1, 1, 1])
-    for item in cart_items:
+    for item in cart["items"]:
+        posting_id = ObjectId(item["postingId"])
+        posting = get_posting_by_id(posting_id)
+
+        if not posting:
+            continue  # skip if not found
+
+        quantity = item.get("quantity", 1)
+        price = float(posting.get("price", 0))
+        total_price += price * quantity
+
         with col1:
-            st.write(item["Product"])
+            st.write(posting["title"])
         with col2:
-            st.write(item["Amount"])
+            st.write(quantity)
         with col3:
-            st.write(item["Price"])
+            st.write(f"{price:.2f}")
         with col4:
-            if st.button("Remove", key=item["Product"]):
-                st.success(f"Removed {item['Product']} from cart")
+            if st.button("Remove", key=f"remove_{posting_id}"):
+                st.success(f"Removed {posting_id} from cart")
+
+        # Build enriched item for logging
+        enriched_item = {
+            "posting_id": posting["_id"],
+            "seller_id": posting["user_id"],  # Assuming you store it as user_id
+            "title": posting["title"],
+            "price": price,
+            "description": posting.get("description"),
+            "quantity": quantity,
+            "specifications": posting.get("specifications", [])
+        }
+
+        enriched_items.append(enriched_item)
+
+    st.write(f"**Total price: {total_price:.2f}**")
 
     if st.button("Pay"):
+        # Replace 1 with actual session user ID
+        user_id = st.session_state.get("user_id", 1)
+        insert_payment_log(user_id, enriched_items, total_price)
+
+        clear_cart(st.session_state.session_id)  # Clear the cart after payment
+        st.session_state.bought_items = enriched_items
         st.session_state.selected_page = Screen.RECEIPT.value
-        st.session_state.items = cart_items
         st.rerun()

@@ -3,8 +3,8 @@ from psycopg2.extras import execute_values
 import pandas as pd
 import bcrypt
 
-DEFUALT_PASSWORD =  "password123"
-BCRYPT_PASSWORD = bcrypt.hashpw(DEFUALT_PASSWORD.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+DEFAULT_PASSWORD =  "password123"
+BCRYPT_PASSWORD = bcrypt.hashpw(DEFAULT_PASSWORD.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
 def check_for_connection():
     try:

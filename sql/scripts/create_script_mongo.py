@@ -54,7 +54,7 @@ def used_cars(ids):
     postings = []
 
     for _, row in df.iterrows():
-        user_id = next((ids[car] for car in ids if car.lower() in row['title'].lower()), 101)
+        user_id = next((ids[car] for car in ids if car.lower() in row['title'].lower()), 1)
 
         posting = build_base_posting(
             user_id=user_id,
@@ -92,7 +92,7 @@ def used_cars1(ids):
 
     for _, row in df.iterrows():
         title = f"{row['mark']} {row['model']}"
-        user_id = next((ids[car] for car in ids if car.lower() in row['mark'].lower()), 101)
+        user_id = next((ids[car] for car in ids if car.lower() in row['mark'].lower()), 1)
 
         posting = build_base_posting(
             user_id=user_id,
@@ -129,7 +129,7 @@ def used_cars2(ids):
     postings = []
 
     for _, row in df.iterrows():
-        user_id = next((ids[car] for car in ids if car.lower() in row['title'].lower()), 101)
+        user_id = next((ids[car] for car in ids if car.lower() in row['title'].lower()), 1)
 
         posting = build_base_posting(
             user_id=user_id,
@@ -176,7 +176,7 @@ def insert_pcs():
     postings = []
 
     for _, row in df.iterrows():
-        user_id = next((ids[brand] for brand in ids if brand.lower() in row['brand'].lower()), 101)
+        user_id = next((ids[brand] for brand in ids if brand.lower() in row['brand'].lower()), 1)
 
         posting = build_base_posting(
             user_id=user_id,
@@ -226,7 +226,7 @@ def insert_pcs2():
     postings = []
 
     for _, row in df.iterrows():
-        user_id = next((ids[brand] for brand in ids if brand.lower() in row['Brand'].lower()), 101)
+        user_id = next((ids[brand] for brand in ids if brand.lower() in row['Brand'].lower()), 1)
 
         title = f"{row['Brand']} {row['Processor']} {row['RAM']} GB"
 
@@ -280,7 +280,7 @@ def insert_phones():
     postings = []
 
     for _, row in df.iterrows():
-        user_id = next((ids[brand] for brand in ids if brand.lower() in row['Brand'].lower()), 101)
+        user_id = next((ids[brand] for brand in ids if brand.lower() in row['Brand'].lower()), 1)
 
         posting = build_base_posting(
             user_id=user_id,
@@ -328,7 +328,7 @@ def insert_shoes():
 
     for _, row in df.iterrows():
 
-        user_id = next((ids[brand] for brand in ids if brand.lower() in row['Brand'].lower()), 101)
+        user_id = next((ids[brand] for brand in ids if brand.lower() in row['Brand'].lower()), 1)
 
         posting = build_base_posting(
             user_id=user_id,
@@ -374,7 +374,7 @@ def insert_clothes():
 
     for _, row in df.iterrows():
 
-        user_id = next((ids[brand] for brand in ids if brand.lower() in row['Brand'].lower()), 101)
+        user_id = next((ids[brand] for brand in ids if brand.lower() in row['Brand'].lower()), 1)
 
         posting = build_base_posting(
             user_id=user_id,
@@ -439,7 +439,7 @@ def insert_furniture():
     postings = []
 
     for _, row in df.iterrows():
-        user_id = 101
+        user_id = 1
 
         posting = build_base_posting(
             user_id=user_id,

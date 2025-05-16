@@ -1,31 +1,47 @@
 import streamlit as st
 from pages.screens import Screen
+from db.redis.cart import get_cart, remove_from_cart
 
 def render():
     st.title("Shopping Cart")
-    
-    cart_items = [
-        {"Product": "Item 1", "Amount": 2, "Price": "$20.00"},
-        {"Product": "Item 2", "Amount": 1, "Price": "$30.00"},
-        {"Product": "Item 3", "Amount": 3, "Price": "$50.00"},
-    ]
 
+    cart = get_cart(st.session_state.session_id)
+    st.write("---")
+    
     st.write("Items in your cart:")
-    for item in cart_items:
+
+    header_col1, header_col2, header_col3, header_col4 = st.columns([3, 1, 1, 1])
+    
+    with header_col1:
+        st.write("Item")
+    with header_col2:
+        st.write("Quantity")
+    with header_col3:
+        st.write("Price")
+    with header_col4:
+        st.write("Action")
+
+    total_price = 0
+
+    for item in cart["items"]:
         col1, col2, col3, col4 = st.columns([3, 1, 1, 1])
+        
         with col1:
-            st.write(item["Product"])
+            st.write(item["postingId"])
         with col2:
-            st.write(item["Amount"])
+            st.write(item['quantity'])
         with col3:
-            st.write(item["Price"])
+            total_price += item['quantity'] * item['price']
+            st.write(item['price'])
         with col4:
-            if st.button("Remove", key=item["Product"]):
-                st.success(f"Removed {item['Product']} from cart")
+            if st.button("Remove", key=item["postingId"]):
+                remove_from_cart(st.session_state.session_id, item["postingId"])
+                st.success(f"Removed {item['postingId']} from cart")
+                st.rerun()
 
         st.write("---")
 
-    st.write("Total price: $100.00")
+    st.write(f"Total price: {total_price}")
 
     if st.button("Checkout"):
         if st.session_state.logged_in:

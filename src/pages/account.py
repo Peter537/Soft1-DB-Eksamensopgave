@@ -3,7 +3,10 @@ import streamlit as st
 def render():
     st.title("Account Page")
 
-    st.write("Email: 123@gmail.com")
+    st.write(f"User ID: {st.session_state.user_id}")
+    st.write(f"Email: {st.session_state.email}")
+    st.write(f"Name: {st.session_state.name}")
+    
     st.write("Phone: 123-456-7890")
 
     st.write("Order history")

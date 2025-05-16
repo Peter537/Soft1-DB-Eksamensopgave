@@ -2,6 +2,7 @@ import streamlit as st
 
 from pages.screens import Screen
 from pages import home, account, cart, search_page, product, checkout_login, checkout, receipt 
+import uuid
 
 st.set_page_config(page_title="DB Exam (title tbd!)", layout="wide", initial_sidebar_state="collapsed")
 
@@ -20,6 +21,15 @@ if "selected_page" not in st.session_state:
 
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
+
+if "search_query" not in st.session_state:
+    st.session_state.search_query = " "
+
+if "search_input" not in st.session_state:
+    st.session_state.search_input = ""
+
+if "session_id" not in st.session_state:
+    st.session_state.session_id = str(uuid.uuid4())
     
 # --- TOP NAVBAR ---
 col1, col2, col3 = st.columns([2, 5, 2])
@@ -33,13 +43,13 @@ with col1:
 with col2:
     search_col1, search_col2 = st.columns([5, 1])
     with search_col1:
-        search_query = st.text_input(
-            " ", 
-            placeholder="Search...",
-            label_visibility="collapsed"
-        )
+        new_input = st.text_input(" ", placeholder="Search...", label_visibility="collapsed", value=st.session_state.search_input)
+        st.session_state.search_input = new_input  # Update on type
+
     with search_col2:
         if st.button("🔍", key="search"):
+            st.session_state.search_query = st.session_state.search_input  # Commit to actual query
+            st.session_state.search_page_num = 0
             st.session_state.selected_page = Screen.SEARCH.value
             st.rerun()
 
@@ -70,6 +80,8 @@ st.markdown("---")
 # --- PAGE ROUTING ---
 page = st.session_state.selected_page
 
+print(f"Debug session id: {st.session_state.session_id}")
+
 match page:
     case Screen.HOME.value:
         home.render()
@@ -78,7 +90,7 @@ match page:
     case Screen.CART.value:
         cart.render()
     case Screen.SEARCH.value:
-        search_page.render(search_query)
+        search_page.render()
     case Screen.PRODUCT.value:
         product.render(st.session_state.product_id)
     case Screen.CHECKOUT_LOGIN.value:
@@ -86,4 +98,4 @@ match page:
     case Screen.CHECKOUT.value:
         checkout.render()
     case Screen.RECEIPT.value:
-        receipt.render(st.session_state.items)
+        receipt.render()

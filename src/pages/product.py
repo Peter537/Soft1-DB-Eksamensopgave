@@ -1,29 +1,51 @@
 import streamlit as st
 from pages.screens import Screen
+from db.mongo.postings import get_posting_by_id
+from db.postgres.users import get_user_by_id
+
+from db.redis.cart import add_to_cart
 
 def render(product_id):
     st.title("Product information")
 
-    st.write(f"Debug: you are viewing product with id: {product_id}")
+    posting = get_posting_by_id(product_id)
+    print(f"user_id{posting['user_id']}")
+    seller = get_user_by_id(posting['user_id'])
+    print(posting)
+
+    print("user", seller)
 
     col1, col2 = st.columns(2)
 
     with col1:
-        st.write("Title: Computer 3000x hyper")
-        st.write("Price: $1000.00")
-        st.write("Seller: Amazon.com")
-        st.write("Location: Seattle, WA")
+        st.write(f"Product ID: {posting['_id']}")
+        st.write(f"Title: {posting['title']}")
+        st.write(f"Price: {posting['price']}")
+        st.write(f"Seller: {seller.get('name', 'Unknown')}")
+        
+        if posting['location_city'] and posting['location_country']:
+            st.write(f"Location: {posting['location_city']}, {posting['location_country']}")
 
     with col2:
-        amount = st.number_input("Amount", min_value=1, max_value=100, value=1, step=1)
+        amount = st.number_input("Amount", min_value=1, max_value=posting['item_count'], value=1, step=1)
 
         if st.button("Add to cart"):
-            st.success(f"Added {amount} of items product_id: {product_id} to cart")
+            add_to_cart(st.session_state.session_id, posting['_id'], amount, posting['price'])
+            st.success(f"Added {amount} of {posting['title']} to cart")
 
         if st.button("Buy now"):
+            add_to_cart(st.session_state.session_id, posting['_id'], amount, posting['price'])
             st.session_state.selected_page = Screen.CART.value
             st.rerun()
 
     st.write("---")
-    st.write("Specs: CPU: x, RAM: x, Storage: x")
-    st.write("Description: Computer with x CPU, x RAM, and x Storage...")
+    
+    if posting['specifications']:
+        st.write("Specifications:")
+
+        for spec in posting['specifications']:
+            st.write(f"{spec['key']}: {spec['value']}")
+
+    if posting['description']:
+        st.write("Description:")
+        st.write(posting['description'])
