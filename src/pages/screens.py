@@ -9,3 +9,5 @@ class Screen(Enum):
     CHECKOUT_LOGIN = "Checkout Login"
     CHECKOUT = "Checkout"
     RECEIPT = "Receipt"
+    POSTING = "Posting"
+    REVIEW = "Review"

@@ -27,3 +27,8 @@ def insert_payment_log(user_id: int, cart_items: list, total_amount: float):
         })
 
     collection.insert_one(log_doc)
+
+def get_payment_log_by_user_id(user_id: int):
+    collection = get_mongo_collection(collection_name="payment_log")
+    logs = collection.find({"user_id": user_id}).sort("created_at", -1)
+    return list(logs)

@@ -1,9 +1,18 @@
 from db.mongo.connection_mongo import get_mongo_collection
 
-# def create_posting(title, description, price, user_id):
-#     print("Creating posting in MongoDB")
+def create_posting(title, description, price, user_id):
+    print("Creating posting in MongoDB")
+    conn = get_mongo_collection()
 
-#     db = get_mongo_collection()
+    posting = {
+        "title": title,
+        "description": description,
+        "price": price,
+        "user_id": user_id
+    }
+
+    result = conn.insert_one(posting)
+    return result.inserted_id
 
 def get_all_posting_by_search(search, skip=0, limit=20, min_price=None, max_price=None):
     conn = get_mongo_collection()

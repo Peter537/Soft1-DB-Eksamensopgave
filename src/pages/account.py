@@ -1,31 +1,46 @@
 import streamlit as st
 
+from db.mongo.payment_log import get_payment_log_by_user_id
+from pages.screens import Screen
+
 def render():
-    st.title("Account Page")
 
-    st.write(f"User ID: {st.session_state.user_id}")
-    st.write(f"Email: {st.session_state.email}")
-    st.write(f"Name: {st.session_state.name}")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.title("Account Page")
+
+        st.write(f"User ID: {st.session_state.user_id}")
+        st.write(f"Email: {st.session_state.email}")
+        st.write(f"Name: {st.session_state.name}")
+
+    with col2:
+        if st.button("Make new posting"):
+            st.session_state.selected_page = Screen.POSTING.value
+            st.rerun()
+
+    st.write("---")
+
+    st.title("Order history")
+
+    data = get_payment_log_by_user_id(st.session_state.user_id)
     
-    st.write("Phone: 123-456-7890")
+    if not data:
+        st.write("No orders yet...")
+    else:
+        st.write("---")
+        for order in data:
+            st.write(f"Order ID: {order['_id']}")
+            st.write(f"Total Price: {order['total_amount']}")
+            st.write(f"Date: {order['created_at']}")
+            st.write("Items:")
+            for item in order['items']:
+                st.write(f"- {item['title']} (Quantity: {item['quantity']})")
 
-    st.write("Order history")
-    
-    data = [
-        {"#": 1, "Title": "Product 1", "Price": "$10.00", "Status": "Delivered"},
-        {"#": 2, "Title": "Product 2", "Price": "$20.00", "Status": "Pending"},
-        {"#": 3, "Title": "Product 3", "Price": "$30.00", "Status": "Cancelled"},
-    ]
+            if st.button("Make review?", key=f"review_{order['_id']}"):
+                st.session_state.order_id = order['_id']
+                st.session_state.selected_page = Screen.REVIEW.value
+                st.rerun()
+                print("Review button clicked")
 
-    for item in data:
-        col1, col2, col3, col4 = st.columns([1, 3, 2, 1])
-        with col1:
-            st.write(item["#"])
-        with col2:
-            st.write(item["Title"])
-        with col3:
-            st.write(item["Price"])
-        with col4:
-            st.write(item["Status"])
+            st.write("---")
 
-        st.markdown("---")
