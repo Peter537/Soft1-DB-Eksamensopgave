@@ -1,7 +1,5 @@
-from pymongo import MongoClient
 from bson import ObjectId
 from datetime import datetime
-
 from db.mongo.connection_mongo import get_mongo_collection
 
 def insert_payment_log(user_id: int, cart_items: list, total_amount: float):
@@ -34,7 +32,6 @@ def get_payment_log_by_user_id(user_id: int):
     return list(logs)
 
 def get_payment_log_by_id(log_id: str):
-    print(f"get_payment_log_by_id: {log_id}")
     collection = get_mongo_collection(collection_name="payment_log")
     log = collection.find_one({"_id": ObjectId(log_id)})
     return log

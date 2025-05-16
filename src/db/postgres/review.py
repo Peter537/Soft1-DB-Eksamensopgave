@@ -2,8 +2,6 @@ from db.postgres.connection_postgres import get_db
 
 def create_new_review(user_id, reviewed_user_id, reviewed_posting, rating, description):
 
-    print(f"create_new_review: {user_id}, {reviewed_user_id}, {reviewed_posting}, {rating}, {description}")
-
     try:
         db = get_db()
         cursor = db.cursor()
