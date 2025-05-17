@@ -40,6 +40,16 @@ def render():
     with col2:
         st.title("Search results")
 
+        head_col1, head_col2, head_col3, head_col4 = st.columns([1, 3, 2, 1])
+        with head_col1:
+            st.write("ID")
+        with head_col2:
+            st.write("Title")
+        with head_col3:
+            st.write("Price")
+        with head_col4:
+            st.write("Action")
+
         for item in data:
             col1, col2, col3, col4 = st.columns([1, 3, 2, 1])
             with col1:

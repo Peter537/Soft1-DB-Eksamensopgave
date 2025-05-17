@@ -18,6 +18,10 @@ def render():
             st.session_state.selected_page = Screen.POSTING.value
             st.rerun()
 
+        if st.button("View own postings"):
+            st.session_state.selected_page = Screen.MY_POSTINGS.value
+            st.rerun()
+            
     st.write("---")
 
     st.title("Order history")

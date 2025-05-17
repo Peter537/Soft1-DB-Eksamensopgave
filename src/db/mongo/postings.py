@@ -1,18 +1,35 @@
 from db.mongo.connection_mongo import get_mongo_collection
 
-def create_posting(title, description, price, user_id):
+def create_posting(user_id, title, price, category, description, location_city, location_country, item_count, specifications):
     print("Creating posting in MongoDB")
+
     conn = get_mongo_collection()
 
     posting = {
+        "user_id": user_id,
         "title": title,
-        "description": description,
         "price": price,
-        "user_id": user_id
+        "category": category,
+        "description": description,
+        "location_city": location_city,
+        "location_country": location_country,
+        "item_count": item_count,
+        "specifications": specifications
     }
 
     result = conn.insert_one(posting)
     return result.inserted_id
+
+
+def get_all_posting_by_user_id(user_id):
+    print("Getting all postings by user ID in MongoDB")
+
+    conn = get_mongo_collection()
+
+    postings = conn.find({"user_id": user_id})
+
+    return list(postings)
+
 
 def get_all_posting_by_search(search, skip=0, limit=20, min_price=None, max_price=None):
     conn = get_mongo_collection()

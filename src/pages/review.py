@@ -1,7 +1,6 @@
 import streamlit as st
 from db.postgres.review import create_new_review
-
-from db.mongo.payment_log import get_payment_log_by_id
+from db.mongo.payment_log import get_payment_log_by_id, update_payment_log_review_id
 
 def render():
     st.title("Review page")
@@ -20,12 +19,18 @@ def render():
         review_text = st.text_area(f"Write a review for {item['title']}", key=f"review_{item['posting_id']}")
 
         if st.button(f"Submit review for {item['title']}", key=f"submit_{item['posting_id']}"):
-            create_new_review(
+            review_id = create_new_review(
                 user_id=item['seller_id'],
                 reviewed_user_id=payment_log['user_id'],
                 reviewed_posting=item['posting_id'],
                 rating=rating,
                 description=review_text,
+            )
+
+            update_payment_log_review_id(
+                log_id=payment_log["_id"],
+                item_index=payment_log["items"].index(item),
+                review_id=review_id
             )
 
             st.success(f"Review for {item['title']} submitted successfully!")

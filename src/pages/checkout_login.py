@@ -26,7 +26,10 @@ def render():
                 st.session_state.email = email
                 st.session_state.name = name
                 st.session_state.user_id = user_id
-                st.session_state.selected_page = Screen.CHECKOUT.value
+                if st.session_state.not_in_checkout:
+                    st.session_state.selected_page = Screen.HOME.value
+                else:
+                    st.session_state.selected_page = Screen.CHECKOUT.value
                 st.session_state.logged_in = True
                 st.rerun()
 
@@ -37,5 +40,9 @@ def render():
 
     if st.session_state.logged_in == False:
         if st.button("Or continue as guest?"):
-            st.session_state.selected_page = Screen.CHECKOUT.value
+            if st.session_state.not_in_checkout:
+                st.session_state.selected_page = Screen.HOME.value
+                st.session_state.not_in_checkout = False
+            else:  
+                st.session_state.selected_page = Screen.CHECKOUT.value
             st.rerun()

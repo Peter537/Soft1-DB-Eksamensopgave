@@ -10,15 +10,23 @@ def create_new_review(user_id, reviewed_user_id, reviewed_posting, rating, descr
             """
             INSERT INTO user_reviews (user_id, reviewed_user_id, reviewed_posting, rating, description)
             VALUES (%s, %s, %s, %s, %s)
+            RETURNING id
             """,
-            (user_id, reviewed_user_id, str(reviewed_posting), rating, description)
+            (
+                str(user_id), 
+                str(reviewed_user_id), 
+                str(reviewed_posting), 
+                rating, 
+                description
+            )
         )
 
+        review_id = cursor.fetchone()[0]
         db.commit()
         cursor.close()
         db.close()
-        return True
+        return review_id
     except Exception as e:
-        print(f"Error creating new review: {e}")
-        return False
+        print(f"Error creating review: {e}")
+        return None
     

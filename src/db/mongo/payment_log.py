@@ -35,3 +35,11 @@ def get_payment_log_by_id(log_id: str):
     collection = get_mongo_collection(collection_name="payment_log")
     log = collection.find_one({"_id": ObjectId(log_id)})
     return log
+
+# set the review_id for a specific item in the payment log
+def update_payment_log_review_id(log_id: str, item_index: int, review_id: str):
+    collection = get_mongo_collection(collection_name="payment_log")
+    collection.update_one(
+        {"_id": log_id, f"items.{item_index}.review_id": None},
+        {"$set": {f"items.{item_index}.review_id": review_id}}
+    )

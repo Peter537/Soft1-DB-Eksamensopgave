@@ -10,6 +10,7 @@ def render():
     user_id = st.session_state.user_id
     title = st.text_input("Title")
     price = st.number_input("Price", min_value=0.0, format="%.2f")
+    category = st.selectbox("Category", ["car", "furniture", "dress", "shoes", "phone", "pc", "kitchenware", "T-shirt", "Jacket", "Sweater", "Jeans"])
     description = st.text_area("Description")
     location_city = st.text_input("Location City")
     location_country = st.text_input("Location Country")
@@ -32,10 +33,13 @@ def render():
         print("user_id", user_id)
         print("title", title)
         print("price", price)
+        print("category", category)
         print("description", description)
         print("location_city", location_city)
         print("location_country", location_country)
         print("item_count", item_count)
         print("specifications", st.session_state.specifications)
 
-        #create_posting(user_id, title, price, description, location_city, location_country, item_count, st.session_state.specifications)
+        id = create_posting(user_id, title, price, category, description, location_city, location_country, item_count, st.session_state.specifications)
+
+        st.success(f"Posting created successfully with ID: {id}")

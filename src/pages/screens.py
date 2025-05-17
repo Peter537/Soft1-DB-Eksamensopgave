@@ -11,3 +11,4 @@ class Screen(Enum):
     RECEIPT = "Receipt"
     POSTING = "Posting"
     REVIEW = "Review"
+    MY_POSTINGS = "My Postings"

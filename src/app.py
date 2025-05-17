@@ -1,6 +1,6 @@
 import streamlit as st
 from pages.screens import Screen
-from pages import home, account, cart, search_page, product, checkout_login, checkout, receipt, make_posting, review
+from pages import home, account, cart, search_page, product, checkout_login, checkout, receipt, make_posting, review, my_postings
 import uuid
 
 st.set_page_config(page_title="DB Exam (title tbd!)", layout="wide", initial_sidebar_state="collapsed")
@@ -29,6 +29,9 @@ if "search_input" not in st.session_state:
 if "session_id" not in st.session_state:
     st.session_state.session_id = str(uuid.uuid4())
     
+if "not_in_checkout" not in st.session_state:
+    st.session_state.not_in_checkout = False
+
 # --- TOP NAVBAR ---
 col1, col2, col3 = st.columns([2, 5, 2])
 
@@ -64,9 +67,11 @@ with col3:
                 st.session_state.selected_page = Screen.HOME.value
                 st.session_state.logged_in = False
                 st.session_state.product_id = None
+                st.session_state.not_in_checkout = False
                 st.rerun()
         else:
             if st.button("👤 Login"):
+                st.session_state.not_in_checkout = True
                 st.session_state.selected_page = Screen.CHECKOUT_LOGIN.value
 
     with sub_col2:
@@ -101,3 +106,5 @@ match page:
         make_posting.render()
     case Screen.REVIEW.value:
         review.render()
+    case Screen.MY_POSTINGS.value:
+        my_postings.render()
