@@ -2,7 +2,7 @@ import streamlit as st
 from pages.screens import Screen
 from db.mongo.postings import get_posting_by_id
 from db.postgres.users import get_user_by_id
-
+from db.redis.zincrby import increment_posting_view
 from db.redis.cart import add_to_cart
 
 def render(product_id):
@@ -10,6 +10,9 @@ def render(product_id):
 
     posting = get_posting_by_id(product_id)
     print(f"user_id{posting['user_id']}")
+
+    increment_posting_view(product_id)
+
     seller = get_user_by_id(posting['user_id'])
     print(posting)
 

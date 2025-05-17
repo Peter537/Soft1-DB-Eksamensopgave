@@ -1,5 +1,6 @@
 import streamlit as st
 from db.mongo.postings import get_all_categories
+from db.redis.zincrby import get_top_10_postings
 from pages.screens import Screen
 
 def render():
@@ -22,5 +23,12 @@ def render():
                     st.rerun()
 
     st.title("Most viewed")
-    st.write("placeholder for most viewed")
-    # get from redis 
+    top_10_postings = get_top_10_postings()
+
+    if top_10_postings:
+        st.write("---")
+        for posting in top_10_postings:
+
+            title_shortened = posting["title"][:25] + "..." if len(posting["title"]) > 20 else posting["title"]
+            st.write(f'Title: {title_shortened}')
+            st.write("---")

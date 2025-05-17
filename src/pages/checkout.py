@@ -56,7 +56,6 @@ def render():
     st.write(f"**Total price: {total_price:.2f}**")
 
     if st.button("Pay"):
-        # Replace 1 with actual session user ID
         user_id = st.session_state.get("user_id", 1) # TODO: what should we do when user is not logged in? should a user only have to give email and phone number instead?
         insert_payment_log(user_id, enriched_items, total_price)
 

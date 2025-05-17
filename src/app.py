@@ -1,12 +1,10 @@
 import streamlit as st
-
 from pages.screens import Screen
 from pages import home, account, cart, search_page, product, checkout_login, checkout, receipt, make_posting, review
 import uuid
 
 st.set_page_config(page_title="DB Exam (title tbd!)", layout="wide", initial_sidebar_state="collapsed")
 
-# Hide sidebar completely (ish)
 hide_sidebar = """
     <style>
         [data-testid="stSidebar"] { display: none !important; }
