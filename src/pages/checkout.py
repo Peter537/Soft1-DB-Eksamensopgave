@@ -56,8 +56,12 @@ def render():
     st.write(f"**Total price: {total_price:.2f}**")
 
     if st.button("Pay"):
-        user_id = st.session_state.get("user_id", 1) # TODO: what should we do when user is not logged in? should a user only have to give email and phone number instead?
-        insert_payment_log(user_id, enriched_items, total_price)
+        
+        email = st.session_state.get("email") # TODO: what should we do when user is not logged in? should a user only have to give email and phone number instead?
+
+        print(f"Debug: email guest: {email}")
+
+        insert_payment_log(email, enriched_items, total_price)
 
         for item in enriched_items:
             id = ObjectId(item["posting_id"])

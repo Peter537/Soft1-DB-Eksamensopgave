@@ -1,6 +1,6 @@
 import streamlit as st
 
-from db.mongo.payment_log import get_payment_log_by_user_id
+from db.mongo.payment_log import get_payment_log_by_email
 from pages.screens import Screen
 
 def render():
@@ -26,7 +26,7 @@ def render():
 
     st.title("Order history")
 
-    data = get_payment_log_by_user_id(st.session_state.user_id)
+    data = get_payment_log_by_email(st.session_state.email)
     
     if not data:
         st.write("No orders yet...")

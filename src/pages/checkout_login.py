@@ -5,7 +5,6 @@ from db.postgres.users import login_user
 def render():
     st.title("Login or continue as guest")
 
-    st.write("Login")
 
     email = st.text_input("Email")
     password = st.text_input("Password", type="password")
@@ -40,9 +39,26 @@ def render():
 
     if st.session_state.logged_in == False:
         if st.button("Or continue as guest?"):
-            if st.session_state.not_in_checkout:
-                st.session_state.selected_page = Screen.HOME.value
-                st.session_state.not_in_checkout = False
-            else:  
-                st.session_state.selected_page = Screen.CHECKOUT.value
+            st.session_state.show_guest_inputs = True
+
+    if st.session_state.get("show_guest_inputs", False):
+        if st.session_state.not_in_checkout:
+            st.session_state.selected_page = Screen.HOME.value
+            st.session_state.not_in_checkout = False
             st.rerun()
+        else:
+            st.session_state.email = st.text_input("Email", key="guest_email")
+            st.session_state.name = st.text_input("Name", key="guest_name")
+
+            if st.button("Continue"):
+                if not st.session_state.email or not st.session_state.name:
+                    st.error("Please enter both email and name")
+                else:
+                    st.session_state.selected_page = Screen.CHECKOUT.value
+                    st.session_state.show_guest_inputs = False
+                    st.rerun()
+
+
+    if st.button("Sign up"):
+        st.session_state.selected_page = Screen.SIGNUP.value
+        st.rerun()

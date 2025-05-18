@@ -1,6 +1,6 @@
 import streamlit as st
 from pages.screens import Screen
-from pages import home, account, cart, search_page, product, checkout_login, checkout, receipt, make_posting, review, my_postings
+from pages import home, account, cart, search_page, product, checkout_login, checkout, receipt, make_posting, review, my_postings, sign_up
 import uuid
 
 st.set_page_config(page_title="DB Exam (title tbd!)", layout="wide", initial_sidebar_state="collapsed")
@@ -108,3 +108,5 @@ match page:
         review.render()
     case Screen.MY_POSTINGS.value:
         my_postings.render()
+    case Screen.SIGNUP.value:
+        sign_up.render()

@@ -44,7 +44,7 @@ def render():
         with head_col1:
             st.write("ID")
         with head_col2:
-            st.write("Title")
+            st.write(f"Title")
         with head_col3:
             st.write("Price")
         with head_col4:
@@ -55,7 +55,7 @@ def render():
             with col1:
                 st.write(item["_id"])
             with col2:
-                st.write(item["title"])
+                st.write(f'{item["title"]}{" (sold out)" if item["status"] == "inactive" else ""}')
             with col3:
                 st.write(item["price"])
             with col4:

@@ -30,16 +30,6 @@ def render():
             st.write(f"**{i+1}. {spec['key']}**: {spec['value']}")
 
     if st.button("Create Posting"):
-        print("user_id", user_id)
-        print("title", title)
-        print("price", price)
-        print("category", category)
-        print("description", description)
-        print("location_city", location_city)
-        print("location_country", location_country)
-        print("item_count", item_count)
-        print("specifications", st.session_state.specifications)
-
         id = create_posting(user_id, title, price, category, description, location_city, location_country, item_count, st.session_state.specifications)
 
         st.success(f"Posting created successfully with ID: {id}")

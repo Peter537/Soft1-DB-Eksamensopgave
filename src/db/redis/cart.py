@@ -33,7 +33,7 @@ def add_to_cart(title, session_id, posting_id, quantity, price):
             "price": price
         })
 
-    redis.set(key, json.dumps(cart))
+    redis.set(key, json.dumps(cart), ex=3600)
 
 
 def remove_from_cart(session_id, posting_id):

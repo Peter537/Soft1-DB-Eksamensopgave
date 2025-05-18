@@ -1,9 +1,9 @@
 from pymongo import MongoClient
 
-def get_mongo_collection():
+def get_mongo_collection(collection_name="postings"):
     client = MongoClient("mongodb://root:secretpassword@localhost:27017/?authSource=admin")
     db = client["marketplace"]
-    return db["postings"]
+    return db[collection_name]
 
 def build_base_posting(user_id, title, price, status, category, country,
                        description=None, city=None, item_count=1, specifications=None):

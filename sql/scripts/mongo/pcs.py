@@ -88,7 +88,7 @@ def insert_pcs2():
             category="pc",
             country="Denmark",
             city="Copenhagen",
-            description=['Product_Description'],
+            description=row['Product_Description'],
             item_count=random.randint(1, 10),
             specifications=[
                 {"key": "Brand", "value": row['Brand']},

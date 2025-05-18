@@ -9,6 +9,9 @@ from util import get_mongo_collection
 def run_all_scripts():
     collection = get_mongo_collection()
     collection.delete_many({})
+
+    collection = get_mongo_collection(collection_name="payment_log")
+    collection.delete_many({})
     print("Cleared all existing postings.")
     
     insert_all_furniture()

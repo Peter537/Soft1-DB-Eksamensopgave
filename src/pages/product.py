@@ -2,6 +2,7 @@ import streamlit as st
 from pages.screens import Screen
 from db.mongo.postings import get_posting_by_id
 from db.postgres.users import get_user_by_id
+from db.postgres.review import get_all_reviews_by_posting_id
 from db.redis.zincrby import increment_posting_view
 from db.redis.cart import add_to_cart
 
@@ -9,7 +10,6 @@ def render(product_id):
     st.title("Product information")
 
     posting = get_posting_by_id(product_id)
-    print(f"user_id{posting['user_id']}")
 
     increment_posting_view(product_id)
 
@@ -32,15 +32,18 @@ def render(product_id):
     with col2:
         amount = st.selectbox("**Amount**", list(range(1, posting['item_count'] + 1)))
 
-        if st.button("Add to cart"):
-            add_to_cart(posting['title'], st.session_state.session_id, posting['_id'], amount, posting['price'])
-            st.success(f"Added {amount} of {posting['title']} to cart")
+        if posting['item_count'] > 0:
+            if st.button("Add to cart"):
+                add_to_cart(posting['title'], st.session_state.session_id, posting['_id'], amount, posting['price'])
+                st.success(f"Added {amount} of {posting['title']} to cart")
 
-        def handle_buy_now():
-            add_to_cart(posting['title'], st.session_state.session_id, posting['_id'], amount, posting['price'])
-            st.session_state.selected_page = Screen.CART.value
+            def handle_buy_now():
+                add_to_cart(posting['title'], st.session_state.session_id, posting['_id'], amount, posting['price'])
+                st.session_state.selected_page = Screen.CART.value
 
-        st.button("Buy now", on_click=handle_buy_now)
+            st.button("Buy now", on_click=handle_buy_now)
+        else:
+            st.warning("This item is out of stock.")
 
     st.write("---")
     
@@ -54,3 +57,16 @@ def render(product_id):
         st.write("---")
         st.write("**Description**:")
         st.write(posting['description'])
+        st.write("---")
+
+    reviews = get_all_reviews_by_posting_id(posting['_id'])
+
+    if reviews['average_rating'] is not None and reviews['reviews']:
+        st.write("**Reviews**:")
+        st.write(f"**Average rating**: {reviews['average_rating']:.1f}")
+        st.write('---')
+        for i, review in enumerate(reviews['reviews']):
+            st.write(f"**Review {i + 1}:**")
+            st.write(f"Rating: {review['rating']}")
+            st.write(f"Description: {review['description']}")
+            st.write("---")

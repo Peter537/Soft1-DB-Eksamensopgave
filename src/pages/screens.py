@@ -12,3 +12,4 @@ class Screen(Enum):
     POSTING = "Posting"
     REVIEW = "Review"
     MY_POSTINGS = "My Postings"
+    SIGNUP = "Sign Up"

@@ -167,7 +167,7 @@ def decrease_item_count(posting_id, quantity):
         if new_item_count == 0:
             conn.update_one(
                 {"_id": posting_id},
-                {"$set": {"item_count": 0, "status": "sold"}}
+                {"$set": {"item_count": 0, "status": "inactive"}}
             )
         else:
             conn.update_one(
@@ -181,7 +181,6 @@ def delete_posting(posting_id):
 
     conn = get_mongo_collection()
 
-    # just set status to deleted
     conn.update_one(
         {"_id": posting_id},
         {"$set": {"status": "deleted"}}

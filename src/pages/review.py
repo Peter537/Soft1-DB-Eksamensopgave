@@ -21,7 +21,7 @@ def render():
         if st.button(f"Submit review for {item['title']}", key=f"submit_{item['posting_id']}"):
             review_id = create_new_review(
                 user_id=item['seller_id'],
-                reviewed_user_id=payment_log['user_id'],
+                reviewed_user_id=st.session_state.user_id,
                 reviewed_posting=item['posting_id'],
                 rating=rating,
                 description=review_text,
