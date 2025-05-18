@@ -4,9 +4,6 @@ from db.redis.zincrby import get_top_10_postings
 from pages.screens import Screen
 
 def render():
-    st.title("Recommendations")
-    st.write("placeholder for recommendations")
-
     st.title("Categories")
     categories = get_all_categories()
     
