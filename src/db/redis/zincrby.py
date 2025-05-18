@@ -8,6 +8,11 @@ def increment_posting_view(posting_id):
     redis.zincrby("views:current_hour", 1, str(posting_id))
 
 
+def delete_all_views():
+    redis = get_redis_client()
+    redis.delete("views:current_hour")
+
+
 def get_top_10_postings():
     redis = get_redis_client()
     top_10_postings = redis.zrevrange("views:current_hour", 0, 9, withscores=True)

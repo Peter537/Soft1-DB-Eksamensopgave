@@ -38,3 +38,5 @@ def render():
                         st.session_state.product_id = posting["_id"]
                         st.session_state.selected_page = Screen.PRODUCT.value
                         st.rerun()
+    else:
+        st.write("No postings have been viewed yet.")

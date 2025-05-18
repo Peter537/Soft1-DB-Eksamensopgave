@@ -2,7 +2,7 @@ import streamlit as st
 from pages.screens import Screen
 
 from bson import ObjectId
-from db.mongo.postings import get_posting_by_id
+from db.mongo.postings import get_posting_by_id, decrease_item_count
 from db.mongo.payment_log import insert_payment_log
 from db.redis.cart import get_cart, clear_cart, remove_from_cart
 
@@ -58,6 +58,10 @@ def render():
     if st.button("Pay"):
         user_id = st.session_state.get("user_id", 1) # TODO: what should we do when user is not logged in? should a user only have to give email and phone number instead?
         insert_payment_log(user_id, enriched_items, total_price)
+
+        for item in enriched_items:
+            id = ObjectId(item["posting_id"])
+            decrease_item_count(id, item["quantity"])
 
         clear_cart(st.session_state.session_id)  
         st.session_state.bought_items = enriched_items

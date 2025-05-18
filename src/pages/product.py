@@ -30,16 +30,17 @@ def render(product_id):
             st.write(f"**Location**: {posting['location_city']}, {posting['location_country']}")
 
     with col2:
-        amount = st.number_input("**Amount**", min_value=1, max_value=posting['item_count'], value=1, step=1)
+        amount = st.selectbox("**Amount**", list(range(1, posting['item_count'] + 1)))
 
         if st.button("Add to cart"):
             add_to_cart(posting['title'], st.session_state.session_id, posting['_id'], amount, posting['price'])
             st.success(f"Added {amount} of {posting['title']} to cart")
 
-        if st.button("Buy now"):
+        def handle_buy_now():
             add_to_cart(posting['title'], st.session_state.session_id, posting['_id'], amount, posting['price'])
             st.session_state.selected_page = Screen.CART.value
-            st.rerun()
+
+        st.button("Buy now", on_click=handle_buy_now)
 
     st.write("---")
     

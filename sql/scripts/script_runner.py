@@ -1,8 +1,12 @@
+import sys
+sys.path.append("./mongo")
 
-from create_script_mongo import run_all_scripts as run_mongo_scripts
-from create_script_postgress import run_all_scripts as run_postgres_scripts
+from mongo.create_script_mongo import run_all_scripts as run_mongo_scripts
+from postgres.create_script_postgres import run_all_scripts as run_postgres_scripts
+from src.db.redis.zincrby import delete_all_views
 
 if __name__ == "__main__":
+    delete_all_views()
     run_postgres_scripts()
     run_mongo_scripts()
 

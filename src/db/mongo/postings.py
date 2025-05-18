@@ -151,3 +151,38 @@ def get_max_price(search):
 
     result = list(conn.aggregate(pipeline))
     return result[0]["max_price"] if result else 1000
+
+
+def decrease_item_count(posting_id, quantity):
+    print("Decreasing item count in MongoDB")
+
+    conn = get_mongo_collection()
+
+    posting = conn.find_one({"_id": posting_id})
+    
+    if posting and posting["item_count"] > 0:
+        # if item_count is 1 then set status to sold and item_count to 0
+        new_item_count = posting["item_count"] - quantity
+
+        if new_item_count == 0:
+            conn.update_one(
+                {"_id": posting_id},
+                {"$set": {"item_count": 0, "status": "sold"}}
+            )
+        else:
+            conn.update_one(
+                {"_id": posting_id},
+                {"$set": {"item_count": new_item_count}}
+            )
+
+
+def delete_posting(posting_id):
+    print("Deleting posting in MongoDB")
+
+    conn = get_mongo_collection()
+
+    # just set status to deleted
+    conn.update_one(
+        {"_id": posting_id},
+        {"$set": {"status": "deleted"}}
+    )
