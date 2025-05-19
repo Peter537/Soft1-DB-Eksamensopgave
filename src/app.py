@@ -1,7 +1,4 @@
 import streamlit as st
-from pages.screens import Screen
-from pages import home, account, cart, search_page, product, checkout_login, checkout, receipt, make_posting, review, my_postings, sign_up
-import uuid
 
 st.set_page_config(page_title="DB Exam (title tbd!)", layout="wide", initial_sidebar_state="collapsed")
 
@@ -12,6 +9,43 @@ hide_sidebar = """
     </style>
 """
 st.markdown(hide_sidebar, unsafe_allow_html=True)
+
+from pages.screens import Screen
+from pages import home, account, cart, search_page, product, checkout_login, checkout, receipt, make_posting, review, my_postings, sign_up
+import uuid
+from streamlit_cookies_manager import EncryptedCookieManager
+import time
+
+# 2) Init cookie manager
+cookies = EncryptedCookieManager(prefix="app_", password="YOUR_SECRET")
+if not cookies.ready():
+    st.stop()
+
+# 3) Read raw cookie, if present
+raw = cookies.get("session_id")  # returns None or the string we wrote
+
+sid = None
+if raw:
+    try:
+        # Expect format "<uuid>--<timestamp>"
+        stored_uuid, stored_ts = raw.split("--")
+        if time.time() - float(stored_ts) < 3600:  # less than 1 hour old?
+            sid = stored_uuid
+    except Exception:
+        # on any parsing error, we'll just issue a new one
+        sid = None
+
+# 4) If no valid sid, generate new and write cookie
+if sid is None:
+    sid = str(uuid.uuid4())
+
+    # store both the uuid and the current time
+    cookies["session_id"] = f"{sid}--{time.time()}"
+    cookies.save()
+
+st.session_state.session_id = sid
+st.write(f"🔑 Your session ID is: `{sid}`")
+
 
 # Session state for page selection
 if "selected_page" not in st.session_state:
@@ -26,8 +60,8 @@ if "search_query" not in st.session_state:
 if "search_input" not in st.session_state:
     st.session_state.search_input = ""
 
-if "session_id" not in st.session_state:
-    st.session_state.session_id = str(uuid.uuid4())
+# if "session_id" not in st.session_state:
+#     st.session_state.session_id = str(uuid.uuid4())
     
 if "not_in_checkout" not in st.session_state:
     st.session_state.not_in_checkout = False
