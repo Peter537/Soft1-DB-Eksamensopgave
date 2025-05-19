@@ -44,6 +44,10 @@ def render():
     st.write(f"Total price: {total_price}")
 
     if st.button("Checkout"):
+        if len(cart["items"]) == 0:
+            st.warning("Your cart is empty. Please add items to your cart before checking out.")
+            return
+
         if st.session_state.logged_in:
             st.session_state.selected_page = Screen.CHECKOUT.value
         else:
