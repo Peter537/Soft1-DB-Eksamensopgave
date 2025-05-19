@@ -4,7 +4,6 @@ from db.mongo.postings import get_all_posting_by_search, get_max_price
 
 def render():
     search_query = st.session_state.get("search_query", "")
-    st.write(f"Debug: you searched for: {search_query}")
 
     col1, col2 = st.columns([1, 5])
     
@@ -35,10 +34,8 @@ def render():
     )
     max_page = (total_results - 1) // per_page
 
-    st.write(f"Debug: Showing {len(data)} of {total_results} results")
-
     with col2:
-        st.title("Search results")
+        st.title(f"Search results ({total_results})")
 
         head_col1, head_col2, head_col3, head_col4 = st.columns([1, 3, 2, 1])
         with head_col1:
@@ -76,10 +73,3 @@ def render():
             if st.button("➡️ Next") and st.session_state.search_page_num < max_page:
                 st.session_state.search_page_num += 1
                 st.rerun()
-
-def parse_price(price):
-    if isinstance(price, (int, float)):
-        return price
-    if isinstance(price, str):
-        return float(price.replace("$", "").replace(",", ""))
-    return 0

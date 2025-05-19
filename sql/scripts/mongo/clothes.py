@@ -1,6 +1,7 @@
 import pandas as pd
 import random
-from util import insert_many_postings, build_base_posting
+from util import insert_many_postings
+from model.posting import build_base_posting
 
 def insert_shoes():
     print("Inserting shoes from shoes.csv")
@@ -74,7 +75,7 @@ def insert_clothes():
             title=row['Brand'] + " " + row['Category'] + f" ({row['Size']})",
             price=row['Price'],
             status="active",
-            category=row['Category'],
+            category=row['Category'].lower(),
             country="France",
             city="Paris",
             description=(

@@ -1,6 +1,7 @@
 import pandas as pd
 import random
-from util import insert_many_postings, build_base_posting
+from util import insert_many_postings
+from model.posting import build_base_posting
 
 def insert_kitchenware():
     print("Inserting clothes from clothes.csv")
@@ -19,7 +20,7 @@ def insert_kitchenware():
             category="kitchenware",
             country="USA",
             city="New York",
-            description=row['description'],
+            description=None if pd.isna(row['description']) else row['description'],
             item_count=random.randint(1, 10),
             specifications=[
                 {"key": "Brand", "value": row['brand']}

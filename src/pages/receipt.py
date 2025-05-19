@@ -30,3 +30,4 @@ def render():
     
     st.write(f"**Total Amount: ${total_amount}**")
     st.write("Thank you for your purchase!")
+    

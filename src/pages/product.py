@@ -26,8 +26,11 @@ def render(product_id):
         st.write(f"**Price**: {posting['price']}")
         st.write(f"**Seller**: {seller.get('name', 'Unknown')}")
         
-        if posting['location_city'] and posting['location_country']:
-            st.write(f"**Location**: {posting['location_city']}, {posting['location_country']}")
+        if posting['location_country']:
+            if "location_city" in posting and posting['location_city']:
+                st.write(f"**Location**: {posting['location_city']}, {posting['location_country']}")
+            else:
+                st.write(f"**Location**: {posting['location_country']}")
 
     with col2:
         amount = st.selectbox("**Amount**", list(range(1, posting['item_count'] + 1)))

@@ -13,8 +13,16 @@ def render():
             st.write(f"**Title:** {posting['title']}")
             st.write(f"**Price:** ${posting['price']}")
             st.write(f"**Category:** {posting['category']}")
-            st.write(f"**Description:** {posting['description']}")
-            st.write(f"**Location:** {posting['location_city']}, {posting['location_country']}")
+            
+            if "description" in posting and posting['description']:
+                st.write(f"**Description:** {posting['description']}")
+            
+            if posting['location_country']:
+                if "location_city" in posting and posting['location_city']:
+                    st.write(f"**Location:** {posting['location_city']}, {posting['location_country']}")
+                else:
+                    st.write(f"**Location:** {posting['location_country']}")
+
             st.write(f"**Item Count:** {posting['item_count']}")
             st.write("**Specifications:**")
             for spec in posting['specifications']:

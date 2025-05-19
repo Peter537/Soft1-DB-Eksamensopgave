@@ -22,8 +22,8 @@ def render():
         posting = get_posting_by_id(posting_id)
 
         if not posting:
-            continue  # skip if not found
-
+            continue 
+        
         quantity = item.get("quantity", 1)
         price = float(posting.get("price", 0))
         total_price += price * quantity
@@ -57,7 +57,7 @@ def render():
 
     if st.button("Pay"):
         
-        email = st.session_state.get("email") # TODO: what should we do when user is not logged in? should a user only have to give email and phone number instead?
+        email = st.session_state.get("email")
 
         print(f"Debug: email guest: {email}")
 

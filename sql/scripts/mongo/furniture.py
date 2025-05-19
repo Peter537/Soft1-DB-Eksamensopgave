@@ -1,6 +1,7 @@
 import pandas as pd
 import random
-from util import insert_many_postings, build_base_posting
+from util import insert_many_postings
+from model.posting import build_base_posting
 
 def insert_all_furniture():
     insert_furniture()
@@ -10,7 +11,7 @@ def insert_all_furniture():
 def insert_furniture():
     print("Inserting furniture from furniture.csv")
     path = '../../datasets/furniture/furniture.csv'
-    df = pd.read_csv(path)
+    df = pd.read_csv(path).dropna()
 
     postings = []
 

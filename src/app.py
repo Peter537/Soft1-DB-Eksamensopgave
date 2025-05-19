@@ -21,7 +21,7 @@ if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 
 if "search_query" not in st.session_state:
-    st.session_state.search_query = " "
+    st.session_state.search_query = ""
 
 if "search_input" not in st.session_state:
     st.session_state.search_input = ""
@@ -45,11 +45,11 @@ with col2:
     search_col1, search_col2 = st.columns([5, 1])
     with search_col1:
         new_input = st.text_input(" ", placeholder="Search...", label_visibility="collapsed", value=st.session_state.search_input)
-        st.session_state.search_input = new_input  # Update on type
+        st.session_state.search_input = new_input 
 
     with search_col2:
         if st.button("🔍", key="search"):
-            st.session_state.search_query = st.session_state.search_input  # Commit to actual query
+            st.session_state.search_query = st.session_state.search_input 
             st.session_state.search_page_num = 0
             st.session_state.selected_page = Screen.SEARCH.value
             st.rerun()

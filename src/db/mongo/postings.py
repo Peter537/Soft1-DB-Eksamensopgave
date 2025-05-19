@@ -1,21 +1,23 @@
 from db.mongo.connection_mongo import get_mongo_collection
+from model.posting import build_base_posting
 
 def create_posting(user_id, title, price, category, description, location_city, location_country, item_count, specifications):
     print("Creating posting in MongoDB")
 
     conn = get_mongo_collection()
 
-    posting = {
-        "user_id": user_id,
-        "title": title,
-        "price": price,
-        "category": category,
-        "description": description,
-        "location_city": location_city,
-        "location_country": location_country,
-        "item_count": item_count,
-        "specifications": specifications
-    }
+    posting = build_base_posting(
+        user_id=user_id,
+        title=title,
+        price=price,
+        status="active",
+        category=category,
+        description=description,
+        city=location_city,
+        country=location_country,
+        item_count=item_count,
+        specifications=specifications
+    )
 
     result = conn.insert_one(posting)
     return result.inserted_id

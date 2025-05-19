@@ -10,7 +10,7 @@ def render():
     user_id = st.session_state.user_id
     title = st.text_input("Title")
     price = st.number_input("Price", min_value=0.0, format="%.2f")
-    category = st.selectbox("Category", ["car", "furniture", "dress", "shoes", "phone", "pc", "kitchenware", "T-shirt", "Jacket", "Sweater", "Jeans"])
+    category = st.selectbox("Category", ["car", "furniture", "dress", "shoes", "phone", "pc", "kitchenware", "t-shirt", "jacket", "sweater", "jeans"])
     description = st.text_area("Description")
     location_city = st.text_input("Location City")
     location_country = st.text_input("Location Country")
@@ -29,7 +29,16 @@ def render():
         for i, spec in enumerate(st.session_state.specifications):
             st.write(f"**{i+1}. {spec['key']}**: {spec['value']}")
 
-    if st.button("Create Posting"):
-        id = create_posting(user_id, title, price, category, description, location_city, location_country, item_count, st.session_state.specifications)
+    required_filled = bool(title.strip()) and price > 0 and bool(location_country.strip())
 
+    if not required_filled:
+        st.warning("Please fill in all required fields: Title, Price, and Location Country.")
+
+    if st.button("Create Posting", disabled=not required_filled):
+        id = create_posting(
+            user_id, title, price, category,
+            description if description.strip() else None,
+            location_city if location_city.strip() else None,
+            location_country, item_count, st.session_state.specifications
+        )
         st.success(f"Posting created successfully with ID: {id}")

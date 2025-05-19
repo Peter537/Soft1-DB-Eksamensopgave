@@ -1,5 +1,6 @@
 import pandas as pd
-from util import insert_many_postings, build_base_posting
+from util import insert_many_postings
+from model.posting import build_base_posting
 
 def insert_cars():
     car_match_ids = {
