@@ -56,7 +56,7 @@ def render(product_id):
         for spec in posting['specifications']:
             st.write(f"{spec['key']}: {spec['value']}")
 
-    if posting['description']:
+    if "description" in posting and posting['description']:
         st.write("---")
         st.write("**Description**:")
         st.write(posting['description'])
