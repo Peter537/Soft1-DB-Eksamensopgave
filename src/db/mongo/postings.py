@@ -1,5 +1,6 @@
 from db.mongo.connection_mongo import get_mongo_collection
 from model.posting import build_base_posting
+import re
 
 def create_posting(user_id, title, price, category, description, location_city, location_country, item_count, specifications):
     print("Creating posting in MongoDB")
@@ -35,35 +36,47 @@ def get_all_posting_by_user_id(user_id):
 
 def get_all_posting_by_search(search, skip=0, limit=20, min_price=None, max_price=None):
     conn = get_mongo_collection()
-    search = search.lower()
 
-    match_stage = {
-        "$or": [
-            {"title": {"$regex": search, "$options": "i"}},
-            {"description": {"$regex": search, "$options": "i"}},
-            {"category": {"$regex": search, "$options": "i"}}
-        ],
-        "price": {"$exists": True}
-    }
+    query = {}
+    if search:
+        escaped = re.escape(search)
+        regex = {"$regex": f".*{escaped}.*", "$options": "i"}
+        query['$or'] = [
+            {'title': regex},
+            {'category': regex}
+        ]
 
-    # Optional price filtering
-    if min_price is not None and max_price is not None:
-        match_stage["price"] = {
-            "$exists": True,
-            "$ne": None,
-            "$gte": min_price,
-            "$lte": max_price
-        }
+    if min_price is not None or max_price is not None:
+        price_filter = {}
+        if min_price is not None:
+            price_filter['$gte'] = min_price
+        if max_price is not None:
+            price_filter['$lte'] = max_price
+        query['price'] = price_filter
 
     pipeline = [
-        {"$match": match_stage},
-        {"$sort": {"_id": -1}},
-        {"$skip": skip},
-        {"$limit": limit}
+        {'$match': query},
+        {'$sort': {'_id': -1}},
+        {'$facet': {
+            'results': [
+                {'$skip': skip},
+                {'$limit': limit}
+            ],
+            'total_count': [
+                {'$count': 'count'}
+            ]
+        }}
     ]
 
-    results = list(conn.aggregate(pipeline))
-    total_count = conn.count_documents(match_stage)
+    aggregation = list(conn.aggregate(pipeline))
+    if not aggregation:
+        return [], 0
+
+    facet = aggregation[0]
+    results = facet.get('results', [])
+    count_list = facet.get('total_count', [])
+    total_count = count_list[0]['count'] if count_list else 0
+
     return results, total_count
 
 
