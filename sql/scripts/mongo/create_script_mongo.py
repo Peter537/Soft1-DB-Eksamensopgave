@@ -9,6 +9,16 @@ from util import get_mongo_collection
 def run_all_scripts():
     collection = get_mongo_collection()
     collection.delete_many({})
+    collection.drop_indexes()
+
+    collection.create_index(
+        [
+            ("title", "text"),
+            ("description", "text"),
+            ("category", "text")
+        ],
+        name="PostingsTextIndex"
+    )
 
     collection = get_mongo_collection(collection_name="payment_log")
     collection.delete_many({})
