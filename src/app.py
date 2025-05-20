@@ -117,8 +117,6 @@ st.markdown("---")
 # --- PAGE ROUTING ---
 page = st.session_state.selected_page
 
-print(f"Debug session id: {st.session_state.session_id}")
-
 match page:
     case Screen.HOME.value:
         home.render()

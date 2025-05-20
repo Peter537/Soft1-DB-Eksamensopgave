@@ -18,11 +18,16 @@ def insert_payment_log(user_email: str, cart_items: list, total_amount: float):
             "seller_id": item["seller_id"],
             "title": item["title"],
             "price": item["price"],
-            "description": item.get("description"),
             "quantity": item.get("quantity", 1),
-            "review_id": item.get("review_id"),  # Could be None
+
             "specifications": item.get("specifications", [])
         })
+
+        if item.get("description") is not None:
+            log_doc["items"][-1]["description"] = item["description"]
+
+        if item.get("review_id") is not None:
+            log_doc["items"][-1]["review_id"] = item["review_id"]
 
     collection.insert_one(log_doc)
 

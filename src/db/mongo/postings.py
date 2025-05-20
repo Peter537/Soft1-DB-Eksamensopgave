@@ -24,14 +24,23 @@ def create_posting(user_id, title, price, category, description, location_city, 
     return result.inserted_id
 
 
-def get_all_posting_by_user_id(user_id):
-    print("Getting all postings by user ID in MongoDB")
-
+def get_postings_by_user_id(user_id, skip=0, limit=20):
+    """
+    Returns (postings_page, total_count) for a given user.
+    """
     conn = get_mongo_collection()
+    query = {"user_id": user_id}
 
-    postings = conn.find({"user_id": user_id})
+    total = conn.count_documents(query)
+    cursor = (
+        conn
+        .find(query)
+        .skip(skip)
+        .limit(limit)
+        .sort("_id", 1)  # optional: keep a consistent ordering
+    )
 
-    return list(postings)
+    return list(cursor), total
 
 
 def get_all_posting_by_search(search, skip=0, limit=20, min_price=None, max_price=None):

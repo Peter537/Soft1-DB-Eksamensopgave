@@ -5,7 +5,6 @@ from db.mongo.payment_log import get_payment_log_by_id, update_payment_log_revie
 def render():
     st.title("Review page")
 
-    st.write(f"debug {st.session_state.order_id}")
     st.write("---")
 
     payment_log = get_payment_log_by_id(st.session_state.order_id)

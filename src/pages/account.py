@@ -44,7 +44,6 @@ def render():
                 st.session_state.order_id = order['_id']
                 st.session_state.selected_page = Screen.REVIEW.value
                 st.rerun()
-                print("Review button clicked")
 
             st.write("---")
 

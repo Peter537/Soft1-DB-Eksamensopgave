@@ -14,9 +14,6 @@ def render(product_id):
     increment_posting_view(product_id)
 
     seller = get_user_by_id(posting['user_id'])
-    print(posting)
-
-    print("user", seller)
 
     col1, col2 = st.columns(2)
 

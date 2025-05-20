@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 
 def get_mongo_collection(collection_name="postings"):
-    client = MongoClient("mongodb://root:secretpassword@localhost:27017/?authSource=admin")
+    client = MongoClient("mongodb://localhost:27017")
     db = client["marketplace"]
     return db[collection_name]
 

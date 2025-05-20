@@ -59,8 +59,6 @@ def render():
         
         email = st.session_state.get("email")
 
-        print(f"Debug: email guest: {email}")
-
         insert_payment_log(email, enriched_items, total_price)
 
         for item in enriched_items:
