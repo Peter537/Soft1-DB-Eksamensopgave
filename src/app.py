@@ -16,12 +16,12 @@ import uuid
 from streamlit_cookies_manager import EncryptedCookieManager
 import time
 
-# 2) Init cookie manager
+# Init cookie manager
 cookies = EncryptedCookieManager(prefix="app_", password="YOUR_SECRET")
 if not cookies.ready():
     st.stop()
 
-# 3) Read raw cookie, if present
+# Read raw cookie, if present
 raw = cookies.get("session_id")  # returns None or the string we wrote
 
 sid = None
@@ -35,7 +35,7 @@ if raw:
         # on any parsing error, we'll just issue a new one
         sid = None
 
-# 4) If no valid sid, generate new and write cookie
+# If no valid sid, generate new and write cookie
 if sid is None:
     sid = str(uuid.uuid4())
 
