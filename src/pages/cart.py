@@ -31,7 +31,7 @@ def render():
         with col2:
             st.write(item['quantity'])
         with col3:
-            total_price += item['quantity'] * item['price']
+            total_price += item['quantity'] * int(item['price'])
             st.write(item['price'])
         with col4:
             if st.button("Remove", key=item["postingId"]):
