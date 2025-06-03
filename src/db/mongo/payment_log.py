@@ -31,17 +31,19 @@ def insert_payment_log(user_email: str, cart_items: list, total_amount: float):
 
     collection.insert_one(log_doc)
 
+
 def get_payment_log_by_email(user_email: str):
     collection = get_mongo_collection(collection_name="payment_log")
     logs = collection.find({"user_email": user_email}).sort("created_at", -1)
     return list(logs)
+
 
 def get_payment_log_by_id(log_id: str):
     collection = get_mongo_collection(collection_name="payment_log")
     log = collection.find_one({"_id": ObjectId(log_id)})
     return log
 
-# set the review_id for a specific item in the payment log
+
 def update_payment_log_review_id(log_id: str, item_index: int, review_id: str):
     collection = get_mongo_collection(collection_name="payment_log")
     collection.update_one(

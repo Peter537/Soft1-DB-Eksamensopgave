@@ -58,7 +58,6 @@ def normal_users(cur):
     df = pd.read_csv(path, sep='\t', skiprows=8, header=None, names=['name', 'gender'])
     df = df.drop("gender", axis=1).drop_duplicates(subset=['name'])
 
-    # Prepare data for bulk insert
     user_data = [
         (
             name.lower().replace(" ", "") + "@example.com",

@@ -30,4 +30,3 @@ def insert_kitchenware():
     
     insert_many_postings(postings)
     print("Done inserting kitchenware from kitchenware.csv \n")
-

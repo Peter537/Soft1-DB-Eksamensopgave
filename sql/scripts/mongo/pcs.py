@@ -105,4 +105,3 @@ def insert_pcs2():
 
     insert_many_postings(postings)
     print("Done inserting pcs from pc2.csv \n")
-
