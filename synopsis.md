@@ -2,6 +2,7 @@
 - Has to include CAP theorem
 - The use of data diagrams before the database architecture
 - Should we have a Table of Contents? (If so, fix it)
+- 3.1 Relational Database (PostgreSQL) we mention ACID, but we dont use transactions in the code, should we?
 
 
 ## Synopsis: Oline Marketplace with Polyglot Persistence

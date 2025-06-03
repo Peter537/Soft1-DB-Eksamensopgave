@@ -25,9 +25,11 @@ def render():
 
     if top_10_postings:
         st.write("---")
-        for i in range(0, len(top_10_postings), 2):
-            row = top_10_postings[i:i+2]
-            cols = st.columns(2)
+        max_cols = 3
+
+        for i in range(0, len(top_10_postings), max_cols):
+            row = top_10_postings[i:i+max_cols]
+            cols = st.columns(max_cols)
             for col, posting in zip(cols, row):
                 with col:
                     title_shortened = posting["title"][:25] + "..." if len(posting["title"]) > 20 else posting["title"]
