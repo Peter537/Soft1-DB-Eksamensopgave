@@ -30,14 +30,6 @@ Ref: users.id < user_reviews.reviewed_user_id
 
 ## Redis
 
-**Ofte brugte søgninger?**
-
-Search predictions ift. recent searches.
-
-Ex. hvis jeg søger på "gaming pc" så gemmer Redis det i en liste i lidt tid, så når en anden person søger på "gaming" så kan vi vise dem "gaming pc" som en prediction.
-
-For hver ekstra søgning vi får på "gaming pc" så opdaterer vi listen i Redis, så den bliver mere relevant, og gemmes i længere tid.
-
 **Mest sete postings**
 
 Vi har en liste med ZSET i Redis `views:current_hour`, og bruger `ZINCRBY views:current_hour 1 {postingId}` for at opdatere den.
