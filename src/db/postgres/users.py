@@ -1,4 +1,4 @@
-from db.postgres.connection_postgres import get_db
+from db.postgres.connection_postgres import get_conn
 import bcrypt
 
 
@@ -13,7 +13,7 @@ def create_user(email, name, password, is_company=False):
     }
 
     try:
-        conn = get_db()
+        conn = get_conn()
         cursor = conn.cursor()
 
         insert_query = """
@@ -38,7 +38,7 @@ def login_user(email, password):
     print("Logging in user in PostgreSQL")
 
     try:
-        conn = get_db()
+        conn = get_conn()
         cursor = conn.cursor()
 
         select_query = """
@@ -67,7 +67,7 @@ def get_user_by_id(user_id):
     print("Getting user by ID in PostgreSQL")
 
     try:
-        conn = get_db()
+        conn = get_conn()
         cursor = conn.cursor()
 
         select_query = """

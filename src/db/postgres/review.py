@@ -1,9 +1,9 @@
-from db.postgres.connection_postgres import get_db
+from db.postgres.connection_postgres import get_conn
 
 def create_new_review(user_id, reviewed_user_id, reviewed_posting, rating, description):
     try:
-        with get_db() as db:
-            with db.cursor() as cursor:
+        with get_conn() as conn:
+            with conn.cursor() as cursor:
                 cursor.execute(
                     """
                     INSERT INTO user_reviews (user_id, reviewed_user_id, reviewed_posting, rating, description)
@@ -20,7 +20,7 @@ def create_new_review(user_id, reviewed_user_id, reviewed_posting, rating, descr
                 )
 
                 review_id = cursor.fetchone()[0]
-                db.commit()
+                conn.commit()
 
         return review_id
     except Exception as e:
@@ -30,8 +30,8 @@ def create_new_review(user_id, reviewed_user_id, reviewed_posting, rating, descr
 
 def get_all_reviews_by_posting_id(posting_id):
     try:
-        with get_db() as db:
-            with db.cursor() as cursor:
+        with get_conn() as conn:
+            with conn.cursor() as cursor:
                 cursor.execute(
                     """
                     SELECT 
@@ -50,7 +50,6 @@ def get_all_reviews_by_posting_id(posting_id):
                 )
 
                 reviews = cursor.fetchall()
-                db.commit()
 
         if not reviews:
             return {"average_rating": None, "reviews": []}
