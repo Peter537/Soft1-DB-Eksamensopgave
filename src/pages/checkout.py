@@ -40,7 +40,6 @@ def render():
                 st.success(f"Removed {posting['title']} from cart")
                 st.rerun()
 
-        # Build enriched item for logging
         enriched_item = {
             "posting_id": posting["_id"],
             "seller_id": posting["user_id"], 

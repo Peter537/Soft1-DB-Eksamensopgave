@@ -14,7 +14,7 @@ def render():
             with col:
                 if st.button(category, key=category):
                     st.session_state.search_query = category
-                    st.session_state.search_input = category  # Reset input box
+                    st.session_state.search_input = category
                     st.session_state.search_page_num = 0
                     st.session_state.selected_page = Screen.SEARCH.value
                     st.rerun()

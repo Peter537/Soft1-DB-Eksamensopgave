@@ -2,7 +2,7 @@ import streamlit as st
 from db.mongo.postings import get_postings_by_user_id
 
 def render():
-    # --- Pagination state ---
+
     if "my_postings_page_num" not in st.session_state:
         st.session_state.my_postings_page_num = 0
 
@@ -23,7 +23,6 @@ def render():
         st.write("No postings yet...")
         return
 
-    # Render listings
     for posting in postings:
         st.write(f"**Title:** {posting['title']}")
         st.write(f"**Price:** ${posting['price']}")
@@ -35,9 +34,12 @@ def render():
         if country:
             st.write(f"**Location:** {loc + ', ' if loc else ''}{country}")
         st.write(f"**Item Count:** {posting['item_count']}")
-        st.write("**Specifications:**")
-        for spec in posting.get("specifications", []):
-            st.write(f"  - **{spec['key']}**: {spec['value']}")
+        
+        if posting.get("specifications"):
+            st.write("**Specifications:**")
+            for spec in posting.get("specifications", []):
+                st.write(f"  - **{spec['key']}**: {spec['value']}")
+                
         st.markdown("---")
 
     # Pagination controls

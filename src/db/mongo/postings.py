@@ -25,9 +25,7 @@ def create_posting(user_id, title, price, category, description, location_city, 
 
 
 def get_postings_by_user_id(user_id, skip=0, limit=20):
-    """
-    Returns (postings_page, total_count) for a given user.
-    """
+
     conn = get_mongo_collection()
     query = {"user_id": user_id}
 
@@ -43,54 +41,120 @@ def get_postings_by_user_id(user_id, skip=0, limit=20):
     return list(cursor), total
 
 
-def get_all_posting_by_search(search, skip=0, limit=20, min_price=None, max_price=None):
+def get_all_posting_by_search(
+    search: str,
+    skip: int = 0,
+    limit: int = 20,
+    min_price: float = None,
+    max_price: float = None
+):
     conn = get_mongo_collection()
 
+    # 1) Build the “text‐match” part of the query
     query = {}
     if search:
         escaped = re.escape(search)
         regex = {"$regex": f".*{escaped}.*", "$options": "i"}
+
         query['$or'] = [
-            {'title': regex},
-            {'category': regex}
+            {'title':       regex},
+            {'category':    regex},
+            {'description': regex},
         ]
 
-    if min_price is not None or max_price is not None:
-        price_filter = {}
-        if min_price is not None:
-            price_filter['$gte'] = min_price
-        if max_price is not None:
-            price_filter['$lte'] = max_price
-        query['price'] = price_filter
+    # 2) We’re going to convert `price` → `price_numeric`, then match on that
+    #    If the user gave min_price or max_price, we’ll build a second filter
+    price_match = {}
+    if min_price is not None:
+        price_match['$gte'] = min_price
+    if max_price is not None:
+        price_match['$lte'] = max_price
 
-    pipeline = [
-        {'$match': query},
-        {'$sort': {'_id': -1}},
-        {'$facet': {
-            'results': [
-                {'$skip': skip},
-                {'$limit': limit}
+    # 3) Build the aggregation pipeline
+    pipeline = []
+
+    # 3a) First, apply the text‐only portion of the match (title/category/description).
+    #     We do NOT match on `price` yet, because price is still a string in many docs.
+    if query:
+        pipeline.append({"$match": query})
+
+    # 3b) Now add a field called “price_str” that ensures every doc has a string in `price_str`.
+    #     If price is already a number, we toString() it; if it's a string, leave as‐is.
+    pipeline.append({
+        "$addFields": {
+            "price_str": {
+                "$cond": [
+                    {"$isNumber": "$price"},
+                    {"$toString": "$price"},
+                    {"$ifNull": ["$price", "0"]}  
+                    # if price is missing or null, treat as "0"
+                ]
+            }
+        }
+    })
+
+    # 3c) Strip out commas, currency symbols, etc., and convert to double → “price_numeric”
+    pipeline.append({
+        "$addFields": {
+            "price_numeric": {
+                "$convert": {
+                    "input": {
+                        "$replaceAll": {
+                            "input": {
+                                "$replaceAll": {
+                                    "input": "$price_str",
+                                    "find": ",",
+                                    "replacement": ""
+                                }
+                            },
+                            "find": "\\$|kr| |€|£",  
+                            # you might need to add other symbols (e.g. “kr”, “ ” [NBSP], “€”, “£”)
+                            "replacement": ""
+                        }
+                    },
+                    "to": "double",
+                    "onError": 0,
+                    "onNull":  0
+                }
+            }
+        }
+    })
+
+    # 3d) Now that we have “price_numeric”, we can filter on any min_price/max_price
+    if price_match:
+        # only include this stage if the user asked for some price bounds
+        pipeline.append({
+            "$match": {"price_numeric": price_match}
+        })
+
+    # 3e) Finally, sort, skip, limit, and facet to get total_count
+    pipeline.append({"$sort": {"_id": -1}})
+    pipeline.append({
+        "$facet": {
+            "results": [
+                {"$skip": skip},
+                {"$limit": limit}
             ],
-            'total_count': [
-                {'$count': 'count'}
+            "total_count": [
+                {"$count": "count"}
             ]
-        }}
-    ]
+        }
+    })
 
+    # 4) Run the aggregation
     aggregation = list(conn.aggregate(pipeline))
     if not aggregation:
         return [], 0
 
     facet = aggregation[0]
-    results = facet.get('results', [])
-    count_list = facet.get('total_count', [])
-    total_count = count_list[0]['count'] if count_list else 0
+    results = facet.get("results", [])
+    count_list = facet.get("total_count", [])
+    total_count = count_list[0]["count"] if count_list else 0
 
     return results, total_count
 
 
 def get_posting_by_id(posting_id):
-    print("Getting posting by ID in MongoDB")
 
     conn = get_mongo_collection()
 
@@ -115,17 +179,18 @@ def get_all_categories():
     return list(set(categories))
 
 
-def get_max_price(search):
+def get_max_price(search: str) -> float:
     conn = get_mongo_collection()
-    search = search.lower()
+    escaped = re.escape(search)
+    regex = {"$regex": f".*{escaped}.*", "$options": "i"}
 
     pipeline = [
         {
             "$match": {
                 "$or": [
-                    {"title": {"$regex": search, "$options": "i"}},
-                    {"description": {"$regex": search, "$options": "i"}},
-                    {"category": {"$regex": search, "$options": "i"}}
+                    {"title":       regex},
+                    {"description": regex},
+                    {"category":    regex}
                 ],
                 "price": {"$exists": True}
             }
@@ -136,7 +201,7 @@ def get_max_price(search):
                     "$cond": [
                         {"$isNumber": "$price"},
                         {"$toString": "$price"},
-                        "$price"
+                        {"$ifNull": ["$price", "0"]}  
                     ]
                 }
             }
@@ -149,18 +214,24 @@ def get_max_price(search):
                             "$replaceAll": {
                                 "input": {
                                     "$replaceAll": {
-                                        "input": "$price_str",
-                                        "find": ",",
+                                        "input": {
+                                            "$replaceAll": {
+                                                "input": "$price_str",
+                                                "find": ",",
+                                                "replacement": ""
+                                            }
+                                        },
+                                        "find": "\\$|kr| |€|£",
                                         "replacement": ""
                                     }
                                 },
-                                "find": "\\$",
+                                "find": "\\s",  # strip any whitespace as well
                                 "replacement": ""
                             }
                         },
                         "to": "double",
                         "onError": 0,
-                        "onNull": 0
+                        "onNull":  0
                     }
                 }
             }
@@ -174,7 +245,10 @@ def get_max_price(search):
     ]
 
     result = list(conn.aggregate(pipeline))
-    return result[0]["max_price"] if result else 1000
+    if result:
+        return result[0].get("max_price", 0.0)
+    # If no documents at all matched, you can pick a sensible default:
+    return 1000.0
 
 
 def decrease_item_count(posting_id, quantity):
