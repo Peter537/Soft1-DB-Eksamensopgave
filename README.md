@@ -1,4 +1,4 @@
-# Database eksamensopgave - Online Market Place
+# Database eksamensopgave - Online Marketplace
 
 ## GitHub Link
 
