@@ -33,7 +33,7 @@ def used_cars(ids):
             title=row['title'],
             price=row['price'],
             status="active",
-            category="car",
+            category="vehicle",
             country="Nigerian",
             city=row['location'],
             description=(
@@ -71,7 +71,7 @@ def used_cars1(ids):
             title=title,
             price=row['price'],
             status="active",
-            category="car",
+            category="vehicle",
             country="Japan",
             description=(
                 f"Used {title} for sale. The car is from the year {row['year']} and has a mileage of "
@@ -108,7 +108,7 @@ def used_cars2(ids):
             title=row['title'],
             price=row['Price'],
             status="active",
-            category="car",
+            category="vehicle",
             country="UK",
             description=(
                 f"Used {row['title']} for sale. The car is from the year {row['Registration_Year']} and has a mileage of "
