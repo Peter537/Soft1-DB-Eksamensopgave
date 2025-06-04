@@ -14,6 +14,7 @@
 6. [Reflection: Pros & Cons](#6-reflection-pros--cons)
    - [6.1 Business Perspective](#61-business-perspective)
    - [6.2 Technical Perspective](#62-technical-perspective)
+   - [6.3 CAP Theorem Summary](#63-cap-theorem-summary)
 7. [Conclusion](#7-conclusion)
 
 ## 1. Introduction
@@ -131,6 +132,14 @@ It can be tricky to keep information consistent when you're using more than one 
 
 **Complex Deployment and Debugging:**  
 Running multiple databases makes deploying the system and finding bugs more difficult. If something breaks, it could be due to how the databases are talking to each other, not just a single system issue.
+
+### 6.3 CAP Theorem Summary
+
+| Database   | CAP Properties | Usage in Project                                  |
+| ---------- | -------------- | ------------------------------------------------- |
+| PostgreSQL | CA             | Users, reviews, authentication                    |
+| MongoDB    | CP             | Product listings, sharded for geo-distribution    |
+| Redis      | CP             | Session data, shopping carts, product view counts |
 
 ## 7. Conclusion
 
