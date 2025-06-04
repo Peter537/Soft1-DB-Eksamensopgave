@@ -1,9 +1,12 @@
-![alt text](./img/conceptual%20diagram.png.png)
+# Conceptual Database Diagram
+
+We have created a conceptual database diagram that shows the relationships between the different entities in our online marketplace system. This diagram is designed to help visualize how users, postings, reviews, payment logs, shopping carts, and top viewed postings feed are interconnected.
+
+![alt text](./img/conceptual%20diagram.png)
+
+https://dbdiagram.io/d
 
 ```dbml
-// Use DBML to define your database structure
-// Docs: https://dbml.dbdiagram.io/docs
-
 Table User {
   Id l
   Email l
