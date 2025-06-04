@@ -14,7 +14,7 @@
 
 1. As a User, I want to be able to buy a product, regardless of whether I am logged in or not.
 2. As a User, I want to be able to do my shopping without having to log in or create an account.
-3. As a User, I want to be able to create my own listing.
+3. As a User, I want to be able to create my own posting.
 4. As a User, I want to be able to search for products using keywords and apply filters (e.g., category, price range).
 5. As a logged-in User, I want to be able to view my past order history.
 6. As a logged-in User, I want to be able to make reviews on products I have purchased.
@@ -39,7 +39,7 @@ Use-case (AC) format
 |-----|------------------|------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
 | F1  | Functional        | Users can buy a product without logging in                                              | Given a user (logged in or not), when they add a product to cart and proceed to checkout, then they can purchase it |
 | F2  | Functional        | Users can shop without creating an account                                              | Given a user, when they browse or add products to cart, then no login or account creation is required  |
-| F3  | Functional        | Users can create their own listings                                                     | Given a logged-in user, when they fill out a product form, then the listing is created and published   |
+| F3  | Functional        | Users can create their own postings                                                     | Given a logged-in user, when they fill out a product form, then the posting is created and published   |
 | F4  | Functional        | Users can search and filter products                                                    | Given a user, when they use the search bar and filters, then relevant products are returned            |
 | F5  | Functional        | Logged-in users can view order history                                                  | Given a logged-in user, when they access the profile/orders section, then past orders are displayed    |
 | F6  | Functional        | Logged-in users can review purchased products                                           | Given a logged-in user, when they view a previously purchased product, then they can leave a review    |
@@ -57,7 +57,7 @@ Use-case (AC) format
 
 | Term                      | Explanation                                                                 |
 |---------------------------|-----------------------------------------------------------------------------|
-| Listing                   | A product entry created by a user, containing details like name, price, etc.|
+| Posting                   | A product entry created by a user, containing details like name, price, etc.|
 | Shopping cart             | A virtual basket where users add products they intend to purchase           |
 | Checkout                  | The process of finalizing a purchase, including entering payment and delivery info |
 | Review                    | Feedback or rating submitted by a user about a purchased product            |
