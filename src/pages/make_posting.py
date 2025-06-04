@@ -10,7 +10,7 @@ def render():
     user_id = st.session_state.user_id
     title = st.text_input("Title")
     price = st.number_input("Price", min_value=0.0, format="%.2f")
-    category = st.selectbox("Category", ["car", "furniture", "dress", "shoes", "phone", "pc", "kitchenware", "t-shirt", "jacket", "sweater", "jeans"])
+    category = st.selectbox("Category", ["vehicle", "furniture", "dress", "shoes", "phone", "pc", "kitchenware", "t-shirt", "jacket", "sweater", "jeans"])
     description = st.text_area("Description")
     location_city = st.text_input("Location City")
     location_country = st.text_input("Location Country")
