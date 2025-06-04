@@ -10,7 +10,7 @@
 | POC (Proof of Concept) | A basic implementation to demonstrate feasibility, not necessarily production-ready                         |
 | Schema                 | The structure or format that defines how data is organized in a database                                    |
 | Session                | Temporary storage of user data while they are browsing or interacting with the system (e.g., cart contents) |
-| Feedback (System)      | Visual confirmation or alert shown to users after they take an action (e.g., “Item added to cart”)          |
+| Feedback (System)      | Visual confirmation or alert shown to users after they take an action (e.g., "Item added to cart")          |
 | Order History          | A list of past purchases made by a logged-in user                                                           |
 
 ## Categories of users
