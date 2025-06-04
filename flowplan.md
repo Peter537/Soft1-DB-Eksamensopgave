@@ -1,11 +1,14 @@
-https://dbdiagram.io/d
+# Flowplan for Website
+
+We used this to agree on how the website should work, and how the databases are connected to the different websites.
+
+After we had agreed on the flowplan, we created a Figma wireframe design of the website, which can be found in the Figma link: [https://www.figma.com/design/nWOhshppeVPFIs6OLiwxru/DB-Exam-Figma](https://www.figma.com/design/nWOhshppeVPFIs6OLiwxru/DB-Exam-Figma)
 
 ![text](./img/flowplan1.png)
 
-```
-// Use DBML to define your database structure
-// Docs: https://dbml.dbdiagram.io/docs
+https://dbdiagram.io/d
 
+```
 Table sql {
   a varchar
 }
