@@ -44,7 +44,7 @@ For hver ekstra søgning vi får på "gaming pc" så opdaterer vi listen i Redis
 
 Vi har en liste med ZSET i Redis `views:current_hour`, og bruger `ZINCRBY views:current_hour 1 {postingId}` for at opdatere den.
 
-Hver gang klokken bliver X:00, så har vi et cron job / scheduled task der kører `ZREVRANGE views:current_hour 0 10 WITHSCORES` og gemmer de 10 mest sete postings i en liste `views:top_10` i Redis.
+Hver gang klokken bliver X:00, så har vi et cron job / scheduled task der kører `ZREVRANGE views:current_hour 0 24 WITHSCORES` og gemmer de 10 mest sete postings i en liste `views:top_10` i Redis.
 
 **Indkøbskurv**
 
