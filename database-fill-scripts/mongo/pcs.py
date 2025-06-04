@@ -10,7 +10,7 @@ def insert_all_pcs():
 
 def insert_pcs():
     print("Inserting pcs from pc.csv")
-    path = '../../datasets/electronic/pc.csv'
+    path = '../datasets/electronic/pc.csv'
     df = pd.read_csv(path).dropna()
 
     ids = {
@@ -60,7 +60,7 @@ def insert_pcs():
 
 def insert_pcs2():
     print("Inserting pcs from pc2.csv")
-    path = '../../datasets/electronic/pc2.csv'
+    path = '../datasets/electronic/pc2.csv'
     df = pd.read_csv(path)
 
     ids = {

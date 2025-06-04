@@ -5,7 +5,7 @@ from model.posting import build_base_posting
 
 def insert_shoes():
     print("Inserting shoes from shoes.csv")
-    path = '../../datasets/clothing/shoes.csv'
+    path = '../datasets/clothing/shoes.csv'
     df = pd.read_csv(path)
 
     ids = {
@@ -52,7 +52,7 @@ def insert_shoes():
 
 def insert_clothes():
     print("Inserting clothes from clothes.csv")
-    path = '../../datasets/clothing/clothes.csv'
+    path = '../datasets/clothing/clothes.csv'
     df = pd.read_csv(path)
 
     ids = {

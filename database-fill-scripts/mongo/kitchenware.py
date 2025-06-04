@@ -5,7 +5,7 @@ from model.posting import build_base_posting
 
 def insert_kitchenware():
     print("Inserting clothes from clothes.csv")
-    path = '../../datasets/kitchen_utensils/kitchenware.csv'
+    path = '../datasets/kitchen_utensils/kitchenware.csv'
     df = pd.read_csv(path)
 
     id = 26768

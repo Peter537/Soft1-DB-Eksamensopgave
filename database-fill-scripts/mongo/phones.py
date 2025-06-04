@@ -5,7 +5,7 @@ from model.posting import build_base_posting
 
 def insert_phones():
     print("Inserting phones from phones.csv")
-    path = '../../datasets/electronic/phones.csv'
+    path = '../datasets/electronic/phones.csv'
     df = pd.read_csv(path)
 
     ids = {

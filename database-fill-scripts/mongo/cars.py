@@ -20,7 +20,7 @@ def insert_cars():
 
 def used_cars(ids):
     print("Inserting used cars from used_cars.csv")
-    path = '../../datasets/cars/used_cars.csv'
+    path = '../datasets/cars/used_cars.csv'
     df = pd.read_csv(path).dropna()
 
     postings = []
@@ -57,7 +57,7 @@ def used_cars(ids):
 
 def used_cars1(ids):
     print("Inserting used cars from used_cars1.csv")
-    path = '../../datasets/cars/used_cars1.csv'
+    path = '../datasets/cars/used_cars1.csv'
     df = pd.read_csv(path).dropna()
 
     postings = []
@@ -95,7 +95,7 @@ def used_cars1(ids):
 
 def used_cars2(ids):
     print("Inserting used cars from used_cars2.csv")
-    path = '../../datasets/cars/used_cars2.csv'
+    path = '../datasets/cars/used_cars2.csv'
     df = pd.read_csv(path)
 
     postings = []

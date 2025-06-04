@@ -10,7 +10,7 @@ def insert_all_furniture():
 
 def insert_furniture():
     print("Inserting furniture from furniture.csv")
-    path = '../../datasets/furniture/furniture.csv'
+    path = '../datasets/furniture/furniture.csv'
     df = pd.read_csv(path).dropna()
 
     postings = []
@@ -40,7 +40,7 @@ def insert_furniture():
 
 def insert_furniture1():
     print("Inserting furniture from furniture1.csv")
-    path = '../../datasets/furniture/ikea.csv'
+    path = '../datasets/furniture/ikea.csv'
     df = pd.read_csv(path)
 
     postings = []

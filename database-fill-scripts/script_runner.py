@@ -1,7 +1,7 @@
 import sys
 import os
 
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+project_root = "../"
 sys.path.append(project_root)
 sys.path.append("./mongo")
 sys.path.append(os.path.join(project_root, "src"))
