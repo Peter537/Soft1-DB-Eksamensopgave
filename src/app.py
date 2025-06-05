@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.set_page_config(page_title="DB Exam (title tbd!)", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(page_title="DB Exam - Online Marketplace", layout="wide", initial_sidebar_state="collapsed")
 
 hide_sidebar = """
     <style>
