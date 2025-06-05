@@ -26,7 +26,7 @@ def insert_furniture():
             category="furniture",
             country="Sweden",
             city="Stockholm",
-            description=(f'{row['furniture']} for sale for {row['price']}.'),
+            description=(f"{row['furniture']} for sale for {row['price']}."),
             item_count=random.randint(1, 10),
             specifications=[
                 {"key": "Type", "value": row['type']}
@@ -57,7 +57,7 @@ def insert_furniture1():
             country="Sweden",
             city="Stockholm",
             description=(
-                f'{row['name']} for sale for {row['price']}. {row['short_description']}'
+                f"{row['name']} for sale for {row['price']}. {row['short_description']}"
             ),
             item_count=random.randint(1, 10),
             specifications=[

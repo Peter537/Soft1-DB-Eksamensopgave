@@ -32,8 +32,8 @@ def insert_shoes():
             country="Italy",
             city="Rome",
             description=(
-                f'{row['Model']} for sale. It has a size of {row['Size']} and is available in {row['Color']}. '
-                f'The material is {row['Material']} and the type is {row['Type']}.'
+                f"{row['Model']} for sale. It has a size of {row['Size']} and is available in {row['Color']}. "
+                f"The material is {row['Material']} and the type is {row['Type']}."
             ),
             item_count=random.randint(1, 10),
             specifications=[
@@ -79,8 +79,8 @@ def insert_clothes():
             country="France",
             city="Paris",
             description=(
-                f'{row['Category']} from {row['Brand']} for sale. It has a size of {row['Size']} and is available in {row['Color']}. '
-                f'The material is {row['Material']}.'
+                f"{row['Category']} from {row['Brand']} for sale. It has a size of {row['Size']} and is available in {row['Color']}. "
+                f"The material is {row['Material']}."
             ),
             item_count=random.randint(1, 10),
             specifications=[

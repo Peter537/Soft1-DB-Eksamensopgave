@@ -32,8 +32,8 @@ def insert_phones():
             country="Germany",
             city="Berlin",
             description=(
-                f'{row['Model']} for sale. It has a storage of {row['Storage ']} and RAM of {row['RAM ']}. '
-                f'The camera is {row['Camera (MP)']} MP and the battery capacity is {row['Battery Capacity (mAh)']} mAh.'
+                f"{row['Model']} for sale. It has a storage of {row['Storage ']} and RAM of {row['RAM ']}. "
+                f"The camera is {row['Camera (MP)']} MP and the battery capacity is {row['Battery Capacity (mAh)']} mAh."
             ),
             item_count=random.randint(1, 10),
             specifications=[
